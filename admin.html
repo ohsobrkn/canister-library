@@ -308,18 +308,33 @@
   }
 
   async function loadDb() {
-    var url = "https://raw.githubusercontent.com/" + cfg.owner + "/" + cfg.repo + "/" + cfg.branch + "/data/canisters.json?cb=" + Date.now();
-    var r = await fetch(url);
-    if (r.status === 404) {
-      db = defaultDb();
-      dbDirty = true;
-      markDirty("仓库还没有数据文件，首次保存将创建");
-    } else if (!r.ok) {
-      throw new Error("读取 canisters.json 失败：HTTP " + r.status);
-    } else {
-      db = await r.json();
+    var rawUrl = "https://raw.githubusercontent.com/" + cfg.owner + "/" + cfg.repo + "/" + cfg.branch + "/data/canisters.json";
+    var cdnUrl = "https://cdn.jsdelivr.net/gh/" + cfg.owner + "/" + cfg.repo + "@" + cfg.branch + "/data/canisters.json";
+    var json = null;
+    var viaCdn = false;
+    var notFound = false;
+    try {
+      var r = await fetch(rawUrl + "?cb=" + Date.now(), { cache: "no-store" });
+      if (r.status === 404) notFound = true;
+      else if (r.ok) json = await r.json();
+    } catch (e) { /* raw 不可达（部分网络环境会阻断），走 CDN 兜底 */ }
+    if (json === null && !notFound) {
+      try {
+        var r2 = await fetch(cdnUrl + "?cb=" + Date.now(), { cache: "no-store" });
+        if (r2.status === 404) notFound = true;
+        else if (r2.ok) { json = await r2.json(); viaCdn = true; }
+      } catch (e) { /* 两路都不可达 */ }
     }
-    dbDirty = false;
+    if (notFound) {
+      db = defaultDb();
+      markDirty("仓库还没有数据文件，首次保存将创建");
+    } else if (json === null) {
+      throw new Error("读取 canisters.json 失败：raw.githubusercontent 与 jsdelivr CDN 均不可达，请检查网络后点「从仓库重新加载」");
+    } else {
+      db = json;
+      dbDirty = false;
+      if (viaCdn) toast("raw 数据源不可达，已改用 CDN 缓存副本（数据可能有数小时滞后）。", "err");
+    }
     deletePaths = [];
     renderAll();
     updateStats();
