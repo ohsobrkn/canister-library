@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 420" width="300" height="420">
+  <rect width="300" height="420" rx="16" fill="#1f1b16"/>
+  <rect x="60" y="30" width="180" height="360" rx="18" fill="#c33d3d" stroke="#7a2020" stroke-width="3"/>
+  <rect x="60" y="30" width="180" height="86" rx="18" fill="#a02f2f"/>
+  <circle cx="150" cy="118" r="44" fill="#0f0c09" stroke="#7a2020" stroke-width="3"/>
+  <rect x="60" y="160" width="180" height="150" rx="10" fill="#1a0f0f" opacity="0.55"/>
+  <text x="150" y="218" text-anchor="middle" fill="#f8f2e4" font-size="30" font-family="sans-serif" font-weight="bold">ILFORD</text>
+  <text x="150" y="254" text-anchor="middle" fill="#ece5d8" font-size="22" font-family="sans-serif">HP5 Plus 400</text>
+  <text x="150" y="290" text-anchor="middle" fill="#a89d8a" font-size="18" font-family="sans-serif">黑白负片</text>
+  <text x="150" y="360" text-anchor="middle" fill="#c33d3d" font-size="34" font-family="sans-serif" font-weight="bold">ISO 400</text>
+</svg>

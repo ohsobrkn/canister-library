@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>暗盒图片库 · 管理端</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<header class="lib-header">
+  <div class="lib-header-inner">
+    <a class="lib-back" href="index.html">← 返回公开图片库</a>
+    <h1>暗盒图片库 · 管理端</h1>
+    <p class="lib-sub">Canister library admin</p>
+  </div>
+</header>
+
+<main>
+
+  <section class="panel" id="authPanel">
+    <h2>连接仓库</h2>
+    <div class="field-row">
+      <label for="cfgOwner">仓库所有者</label>
+      <input type="text" id="cfgOwner" placeholder="ohsobrkn" />
+      <label for="cfgRepo">仓库名</label>
+      <input type="text" id="cfgRepo" placeholder="canister-library" />
+      <label for="cfgBranch">分支</label>
+      <input type="text" id="cfgBranch" placeholder="main" />
+    </div>
+    <div class="field-row">
+      <label for="cfgPat">访问令牌 PAT</label>
+      <input type="password" id="cfgPat" placeholder="github_pat_…（仅授权本仓库 Contents 读写）" style="flex:1; min-width: 260px;" />
+      <button id="saveCfgBtn" type="button">保存并连接</button>
+      <button id="clearCfgBtn" type="button" class="ghost" type="button">清除本机凭据</button>
+    </div>
+    <p class="hint" id="authHint">令牌只保存在本浏览器 localStorage，不会写入任何文件。请使用 fine-grained PAT：Repository access 仅选本仓库，Permissions → Contents → Read and write，有效期建议 90 天（详见 docs/maintenance.md）。</p>
+  </section>
+
+  <div id="workArea" hidden>
+
+    <div class="stat-cards">
+      <div class="stat-card"><div class="k">仓库体积</div><div class="v" id="statSize">—</div></div>
+      <div class="stat-card"><div class="k">条目数量</div><div class="v" id="statItems">—</div></div>
+      <div class="stat-card"><div class="k">Pages 构建</div><div class="v" id="statBuild">—</div></div>
+      <div class="stat-card"><div class="k">未保存修改</div><div class="v" id="statDirty">无</div></div>
+    </div>
+
+    <div class="bulk-bar" id="saveBar" hidden>
+      <span id="dirtyDesc">有未保存的修改</span>
+      <span class="sep"></span>
+      <button class="primary" id="saveBtn" type="button">保存并提交到仓库</button>
+      <button class="ghost" id="discardBtn" type="button">放弃修改（重新加载）</button>
+    </div>
+
+    <div class="tabs" role="tablist">
+      <button class="tab-btn on" data-tab="upload" type="button">批量上传</button>
+      <button class="tab-btn" data-tab="manage" type="button">图库管理</button>
+      <button class="tab-btn" data-tab="schema" type="button">字典与维度</button>
+    </div>
+
+    <section class="tab-page" id="tab-upload">
+      <div class="panel">
+        <h2>批量上传</h2>
+        <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="拖入或选择图片">
+          <span class="dz-icon">📦</span>
+          把暗盒图片拖到这里，或点击选择文件<br />
+          <span style="font-size:12px; color: var(--faint);">支持 PNG / JPG / WebP / SVG，单张 &lt; 95MB；上传后自动生成缩略图，原图无损保存</span>
+        </div>
+        <input type="file" id="fileInput" multiple accept="image/*" hidden />
+        <div class="field-row" style="margin-top:16px;">
+          <label>新图默认值</label>
+          <span id="uploadDefaults" style="display:flex; flex-wrap:wrap; gap:8px; flex:1;"></span>
+        </div>
+      </div>
+
+      <div class="panel" id="queuePanel" hidden>
+        <h2>上传队列（<span id="queueCount">0</span> 张，等待提交）</h2>
+        <div id="queueList"></div>
+        <div class="field-row">
+          <button class="primary" id="submitUploadBtn" type="button">提交上传（一次提交 · Pages 重建约 1–3 分钟）</button>
+          <button class="ghost" id="clearQueueBtn" type="button">清空队列</button>
+        </div>
+        <div class="commit-log" id="uploadLog" hidden></div>
+      </div>
+    </section>
+
+    <section class="tab-page" id="tab-manage" hidden>
+      <div class="panel">
+        <h2>图库管理</h2>
+        <div class="manage-tools">
+          <input type="text" id="manageSearch" placeholder="搜索型号 / 厂商…" />
+          <label style="display:flex; align-items:center; gap:5px; font-size:13px; color:var(--muted);">
+            <input type="checkbox" id="manageUnfilled" /> 只看未补全元数据
+          </label>
+          <button class="ghost" id="reloadDbBtn" type="button">从仓库重新加载</button>
+        </div>
+        <div class="bulk-bar" id="bulkBar" hidden>
+          <span id="bulkCount">已选 0 张</span>
+          <span class="sep"></span>
+          <button class="ghost" id="bulkHideBtn" type="button">设为隐藏</button>
+          <button class="ghost" id="bulkShowBtn" type="button">设为公开</button>
+          <button class="danger" id="bulkDeleteBtn" type="button">删除所选</button>
+        </div>
+        <div id="itemList"></div>
+        <div class="lib-empty" id="manageEmpty" hidden>没有匹配的条目。</div>
+      </div>
+    </section>
+
+    <section class="tab-page" id="tab-schema" hidden>
+      <div class="panel">
+        <h2>字典维护（厂商等）</h2>
+        <div id="dictEditors"></div>
+        <p class="hint">删除字典值不会改动已有条目，但该值将不再出现在筛选器中。新增的字典值保存后立即在前后台生效。</p>
+      </div>
+      <div class="panel">
+        <h2>筛选维度</h2>
+        <div id="dimList"></div>
+        <div class="field-row" style="margin-top:14px; border-top:1px solid var(--line); padding-top:14px;">
+          <label>新增维度</label>
+          <input type="text" id="newDimKey" placeholder="英文标识，如 format" style="width:130px;" />
+          <input type="text" id="newDimLabel" placeholder="显示名，如 画幅" style="width:120px;" />
+          <select id="newDimType">
+            <option value="dict">字典（可选值可增删）</option>
+            <option value="enum">枚举（固定几项）</option>
+            <option value="number">数值（如 ISO）</option>
+            <option value="tags">标签（一张多值）</option>
+          </select>
+          <input type="text" id="newDimValues" placeholder="初始值，逗号分隔（数值型填档位如 50,100,200）" style="flex:1; min-width:220px;" />
+          <button id="addDimBtn" type="button">添加</button>
+        </div>
+        <p class="hint">维度保存后，管理端表单与公开页筛选器会自动出现对应条目。删除维度不影响条目里已存的数据，仅从界面移除。</p>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="lib-footer">
+  日常维护无需接触代码 · 每次提交都会形成一条 Git 变更记录 · 详见 <a href="docs/maintenance.md" target="_blank">维护手册</a>
+</footer>
+
+<div class="toast-wrap" id="toastWrap"></div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ===== 配置与凭据 ===== */
+  var CFG_KEY = "canisterAdmin.cfg";
+  var PAT_KEY = "canisterAdmin.pat";
+  var cfg = null;   // { owner, repo, branch }
+  var db = null;    // canisters.json 内存副本
+  var connected = false;
+  var committing = false;
+
+  var dbDirty = false;          // 元数据/字典/维度修改未提交
+  var deletePaths = [];         // 待删除的文件路径（保存时一并提交）
+  var queue = [];               // 待上传队列
+
+  var $ = function (id) { return document.getElementById(id); };
+
+  function loadCfg() {
+    try {
+      cfg = JSON.parse(localStorage.getItem(CFG_KEY) || "null");
+    } catch (e) { cfg = null; }
+    if (cfg && cfg.owner && cfg.repo) {
+      $("cfgOwner").value = cfg.owner;
+      $("cfgRepo").value = cfg.repo;
+      $("cfgBranch").value = cfg.branch || "main";
+      var pat = localStorage.getItem(PAT_KEY);
+      if (pat) $("cfgPat").value = pat;
+      return !!(pat && !$("cfgPat").dataset.cleared);
+    }
+    return false;
+  }
+
+  function toast(msg, kind) {
+    var el = document.createElement("div");
+    el.className = "toast" + (kind ? " " + kind : "");
+    el.textContent = msg;
+    $("toastWrap").appendChild(el);
+    setTimeout(function () { el.style.opacity = "0"; el.style.transition = "opacity 300ms"; }, 4200);
+    setTimeout(function () { el.remove(); }, 4600);
+  }
+
+  /* ===== GitHub API 封装 ===== */
+  function ghJson(path, method, body) {
+    var opts = {
+      method: method || "GET",
+      headers: {
+        "Authorization": "Bearer " + localStorage.getItem(PAT_KEY),
+        "Accept": "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28"
+      }
+    };
+    if (body !== undefined) {
+      opts.headers["Content-Type"] = "application/json";
+      opts.body = JSON.stringify(body);
+    }
+    return fetch("https://api.github.com" + path, opts).then(function (r) {
+      if (r.ok) return r.json();
+      return r.json().catch(function () { return {}; }).then(function (err) {
+        var msg = err && err.message ? err.message : ("HTTP " + r.status);
+        if (r.status === 401) msg = "PAT 无效或已过期（" + msg + "）";
+        if (r.status === 404) msg = "仓库/资源不存在：" + cfg.owner + "/" + cfg.repo + "（" + msg + "）";
+        if (r.status === 403 && /rate limit/i.test(msg)) msg = "API 限流，请一小时后再试（" + msg + "）";
+        throw new Error(msg);
+      });
+    });
+  }
+
+  function bufToB64(buf) {
+    var u8 = new Uint8Array(buf);
+    var s = "";
+    var CH = 0x8000;
+    for (var i = 0; i < u8.length; i += CH) {
+      s += String.fromCharCode.apply(null, u8.subarray(i, i + CH));
+    }
+    return btoa(s);
+  }
+
+  /* ===== 提交引擎（Git Data API，一次 commit 带全部文件） ===== */
+  function logLine(msg) {
+    var el = $("uploadLog");
+    el.hidden = false;
+    el.textContent += msg + "\n";
+    el.scrollTop = el.scrollHeight;
+  }
+
+  async function commitChanges(changes, message) {
+    var head = "/repos/" + cfg.owner + "/" + cfg.repo;
+    var ref = await ghJson(head + "/git/ref/heads/" + cfg.branch);
+    var headSha = ref.object.sha;
+    var headCommit = await ghJson(head + "/git/commits/" + headSha);
+    var tree = [];
+    var i = 0;
+    for (i = 0; i < changes.length; i += 1) {
+      var ch = changes[i];
+      if (ch.content == null) {
+        tree.push({ path: ch.path, mode: "100644", type: "blob", sha: null });
+      } else {
+        logLine("  上传 " + ch.path + " …");
+        var blob = await ghJson(head + "/git/blobs", "POST", { content: ch.content, encoding: "base64" });
+        tree.push({ path: ch.path, mode: "100644", type: "blob", sha: blob.sha });
+      }
+    }
+    var newTree = await ghJson(head + "/git/trees", "POST", { base_tree: headCommit.tree.sha, tree: tree });
+    var commit = await ghJson(head + "/git/commits", "POST", { message: message, tree: newTree.sha, parents: [headSha] });
+    await ghJson(head + "/git/refs/heads/" + cfg.branch, "PATCH", { sha: commit.sha });
+    return commit;
+  }
+
+  /* ===== Pages 构建轮询 ===== */
+  var buildTimer = null;
+  async function pollBuild(commitSha, label) {
+    if (buildTimer) clearInterval(buildTimer);
+    var tries = 0;
+    $("statBuild").textContent = "构建中…";
+    $("statBuild").className = "v warn";
+    return new Promise(function (resolve) {
+      buildTimer = setInterval(async function () {
+        tries += 1;
+        var b;
+        try { b = await ghJson("/repos/" + cfg.owner + "/" + cfg.repo + "/pages/builds/latest"); }
+        catch (e) { b = null; }
+        if (b && b.status === "built" && (!commitSha || b.commit === commitSha)) {
+          clearInterval(buildTimer); buildTimer = null;
+          $("statBuild").textContent = "已生效 ✓";
+          $("statBuild").className = "v";
+          toast((label || "提交") + "已构建生效，公开页可访问。", "ok");
+          resolve();
+        } else if (tries >= 40) {
+          clearInterval(buildTimer); buildTimer = null;
+          $("statBuild").textContent = "状态未知";
+          $("statBuild").className = "v warn";
+          resolve();
+        }
+      }, 8000);
+    });
+  }
+
+  async function refreshBuildStatus() {
+    try {
+      var b = await ghJson("/repos/" + cfg.owner + "/" + cfg.repo + "/pages/builds/latest");
+      $("statBuild").textContent = b.status === "building" ? "构建中…" : (b.status === "built" ? "正常 ✓" : b.status || "—");
+      $("statBuild").className = "v" + (b.status === "built" ? "" : " warn");
+    } catch (e) {
+      $("statBuild").textContent = "未开启";
+      $("statBuild").className = "v warn";
+    }
+  }
+
+  /* ===== 数据加载 ===== */
+  function defaultDb() {
+    return {
+      version: 1,
+      dimensions: [
+        { key: "manufacturer", label: "厂商", type: "dict", dict: "manufacturer" },
+        { key: "filmType", label: "胶片类型", type: "enum", values: ["彩色负片", "彩色反转片", "黑白负片", "黑白反转片", "电影卷"] },
+        { key: "iso", label: "ISO", type: "number", tiers: [50, 100, 200, 400, 800, 1600, 3200] },
+        { key: "tags", label: "标签", type: "tags" }
+      ],
+      dicts: { manufacturer: [] },
+      items: []
+    };
+  }
+
+  async function loadDb() {
+    var url = "https://raw.githubusercontent.com/" + cfg.owner + "/" + cfg.repo + "/" + cfg.branch + "/data/canisters.json?cb=" + Date.now();
+    var r = await fetch(url);
+    if (r.status === 404) {
+      db = defaultDb();
+      dbDirty = true;
+      markDirty("仓库还没有数据文件，首次保存将创建");
+    } else if (!r.ok) {
+      throw new Error("读取 canisters.json 失败：HTTP " + r.status);
+    } else {
+      db = await r.json();
+    }
+    dbDirty = false;
+    deletePaths = [];
+    renderAll();
+    updateStats();
+  }
+
+  /* ===== 维度工具 ===== */
+  function dimOf(key) {
+    for (var i = 0; i < db.dimensions.length; i += 1) if (db.dimensions[i].key === key) return db.dimensions[i];
+    return null;
+  }
+
+  function dictOf(dim) {
+    if (!dim || dim.type !== "dict") return [];
+    return (db.dicts && db.dicts[dim.dict]) || [];
+  }
+
+  function genId() {
+    return "c" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+  }
+
+  function nowIso() {
+    return new Date().toISOString();
+  }
+
+  /* ===== 状态与统计 ===== */
+  async function updateStats() {
+    $("statItems").textContent = db.items.length + " 张";
+    $("statDirty").textContent = dbDirty ? "有" : "无";
+    $("statDirty").className = "v" + (dbDirty ? " warn" : "");
+    $("saveBar").hidden = !dbDirty;
+    try {
+      var repo = await ghJson("/repos/" + cfg.owner + "/" + cfg.repo);
+      var mb = (repo.size || 0) / 1024;
+      var el = $("statSize");
+      el.textContent = mb.toFixed(1) + " MB";
+      el.className = "v" + (mb > 950 ? " bad" : mb > 800 ? " warn" : "");
+      if (mb > 800) toast("仓库体积已接近 1GB 软上限（" + mb.toFixed(0) + "MB）。建议将原图迁移到 Release 附件存档（见维护手册）。", "err");
+    } catch (e) { /* 忽略统计错误 */ }
+  }
+
+  function markDirty(desc) {
+    dbDirty = true;
+    if (desc) $("dirtyDesc").textContent = desc;
+    else $("dirtyDesc").textContent = "有未保存的修改";
+    $("saveBar").hidden = false;
+    $("statDirty").textContent = "有";
+    $("statDirty").className = "v warn";
+  }
+
+  /* ===== 元数据表单构建（管理端通用） ===== */
+  function buildMetaFields(container, values, defaults) {
+    container.innerHTML = "";
+    var getters = [];
+
+    var nameF = document.createElement("div");
+    nameF.className = "f";
+    nameF.style.gridColumn = "span 2";
+    nameF.innerHTML = '<label>型号名称</label>';
+    var nameIn = document.createElement("input");
+    nameIn.type = "text";
+    nameIn.placeholder = "如 Portra 400";
+    nameIn.value = values.name || "";
+    nameF.appendChild(nameIn);
+    container.appendChild(nameF);
+    getters.push(function () { return { key: "name", value: nameIn.value.trim() }; });
+
+    db.dimensions.forEach(function (dim) {
+      var wrap = document.createElement("div");
+      wrap.className = "f";
+      var label = document.createElement("label");
+      label.textContent = dim.label;
+      wrap.appendChild(label);
+
+      if (dim.type === "dict") {
+        var listId = "dl-" + dim.key + "-" + genId();
+        var dl = document.createElement("datalist");
+        dl.id = listId;
+        dictOf(dim).forEach(function (v) {
+          var o = document.createElement("option");
+          o.value = v;
+          dl.appendChild(o);
+        });
+        wrap.appendChild(dl);
+        var inD = document.createElement("input");
+        inD.type = "text";
+        inD.setAttribute("list", listId);
+        inD.value = values.attrs && values.attrs[dim.key] != null ? String(values.attrs[dim.key]) : (defaults && defaults[dim.key] != null ? String(defaults[dim.key]) : "");
+        wrap.appendChild(inD);
+        getters.push((function (input, key) {
+          return function () { return { key: key, value: input.value.trim() }; };
+        })(inD, dim.key));
+      } else if (dim.type === "enum") {
+        var sel = document.createElement("select");
+        var optEmpty = document.createElement("option");
+        optEmpty.value = "";
+        optEmpty.textContent = "（未选择）";
+        sel.appendChild(optEmpty);
+        (dim.values || []).forEach(function (v) {
+          var o = document.createElement("option");
+          o.value = v; o.textContent = v;
+          sel.appendChild(o);
+        });
+        sel.value = values.attrs && values.attrs[dim.key] != null ? String(values.attrs[dim.key]) : (defaults && defaults[dim.key] != null ? String(defaults[dim.key]) : "");
+        wrap.appendChild(sel);
+        getters.push((function (input, key) {
+          return function () { return { key: key, value: input.value }; };
+        })(sel, dim.key));
+      } else if (dim.type === "number") {
+        var inN = document.createElement("input");
+        inN.type = "number";
+        inN.min = "0";
+        var nv = values.attrs && values.attrs[dim.key];
+        inN.value = nv != null ? nv : (defaults && defaults[dim.key] != null ? defaults[dim.key] : "");
+        wrap.appendChild(inN);
+        getters.push((function (input, key) {
+          return function () {
+            var v = input.value.trim();
+            return { key: key, value: v === "" ? null : Number(v) };
+          };
+        })(inN, dim.key));
+      } else if (dim.type === "tags") {
+        var inT = document.createElement("input");
+        inT.type = "text";
+        inT.placeholder = "逗号分隔，如 停产, 夜景";
+        var tv = values.tags || (defaults && defaults.tags) || [];
+        inT.value = Array.isArray(tv) ? tv.join(", ") : String(tv || "");
+        wrap.appendChild(inT);
+        getters.push((function (input, key) {
+          return function () {
+            return { key: key, value: input.value.split(/[,，]/).map(function (s) { return s.trim(); }).filter(Boolean) };
+          };
+        })(inT, dim.key));
+      }
+      container.appendChild(wrap);
+    });
+
+    var notesF = document.createElement("div");
+    notesF.className = "f";
+    notesF.style.gridColumn = "span 2";
+    notesF.innerHTML = '<label>备注</label>';
+    var notesIn = document.createElement("input");
+    notesIn.type = "text";
+    notesIn.placeholder = "可选";
+    notesIn.value = values.notes || "";
+    notesF.appendChild(notesIn);
+    container.appendChild(notesF);
+    getters.push(function () { return { key: "notes", value: notesIn.value.trim() }; });
+
+    return function collect() {
+      var out = { attrs: {}, tags: [], name: "", notes: "" };
+      getters.forEach(function (g) {
+        var r = g();
+        if (r.key === "name") out.name = r.value;
+        else if (r.key === "notes") out.notes = r.value;
+        else if (r.key === "tags") out.tags = r.value;
+        else out.attrs[r.key] = r.value;
+      });
+      return out;
+    };
+  }
+
+  /* ===== Tab 切换 ===== */
+  Array.prototype.forEach.call(document.querySelectorAll(".tab-btn"), function (btn) {
+    btn.addEventListener("click", function () {
+      Array.prototype.forEach.call(document.querySelectorAll(".tab-btn"), function (b) { b.classList.remove("on"); });
+      btn.classList.add("on");
+      ["upload", "manage", "schema"].forEach(function (t) {
+        $("tab-" + t).hidden = t !== btn.dataset.tab;
+      });
+    });
+  });
+
+  /* ===== 上传队列 ===== */
+  var uploadDefaults = {};
+
+  function renderUploadDefaults() {
+    var host = $("uploadDefaults");
+    host.innerHTML = "";
+    var fields = document.createElement("div");
+    fields.style.cssText = "display:flex; flex-wrap:wrap; gap:8px; flex:1;";
+    var collectDefaults = buildMetaFields(fields, { attrs: {}, tags: [] }, null);
+    host.appendChild(fields);
+    var applyBtn = document.createElement("button");
+    applyBtn.type = "button";
+    applyBtn.className = "ghost";
+    applyBtn.textContent = "应用为默认";
+    applyBtn.addEventListener("click", function () {
+      var v = collectDefaults();
+      uploadDefaults = { attrs: v.attrs, tags: v.tags };
+      toast("默认值已记录，将应用到之后加入队列的图片。");
+    });
+    host.appendChild(applyBtn);
+  }
+
+  async function makeThumb(file) {
+    var url = URL.createObjectURL(file);
+    try {
+      var img = new Image();
+      img.decoding = "async";
+      await new Promise(function (res, rej) {
+        img.onload = res;
+        img.onerror = function () { rej(new Error("图片无法解码（SVG 需带固有尺寸）")); };
+        img.src = url;
+      });
+      var iw = img.naturalWidth || 300;
+      var ih = img.naturalHeight || 300;
+      var MAX = 320;
+      var scale = Math.min(1, MAX / Math.max(iw, ih));
+      var canvas = document.createElement("canvas");
+      canvas.width = Math.max(1, Math.round(iw * scale));
+      canvas.height = Math.max(1, Math.round(ih * scale));
+      canvas.getContext("2d").drawImage(img, 0, 0, canvas.width, canvas.height);
+      var blob = await new Promise(function (resolve) { canvas.toBlob(resolve, "image/webp", 0.82); });
+      var ext = "webp";
+      if (!blob) {
+        blob = await new Promise(function (resolve) { canvas.toBlob(resolve, "image/jpeg", 0.82); });
+        ext = "jpg";
+      }
+      return { blob: blob, ext: ext, w: iw, h: ih };
+    } finally {
+      URL.revokeObjectURL(url);
+    }
+  }
+
+  function extOf(name, type) {
+    var m = /\.([a-z0-9]+)$/i.exec(name || "");
+    if (m) {
+      var e = m[1].toLowerCase();
+      if (e === "jpeg") e = "jpg";
+      return e;
+    }
+    if (/svg/.test(type || "")) return "svg";
+    if (/webp/.test(type || "")) return "webp";
+    return "png";
+  }
+
+  async function addFiles(files) {
+    for (var i = 0; i < files.length; i += 1) {
+      var file = files[i];
+      if (file.size > 95 * 1024 * 1024) {
+        toast("跳过 " + file.name + "：超过 95MB 单文件上限（GitHub 限制 100MB）。", "err");
+        continue;
+      }
+      if (!/^image\//.test(file.type) && !/\.(svg|png|jpe?g|webp)$/i.test(file.name)) {
+        toast("跳过 " + file.name + "：不是图片文件。", "err");
+        continue;
+      }
+      var item = {
+        file: file,
+        id: genId(),
+        ext: extOf(file.name, file.type),
+        name: "",
+        thumbBlob: null,
+        thumbExt: "webp",
+        w: 0,
+        h: 0,
+        error: null,
+        collect: null
+      };
+      try {
+        var t = await makeThumb(file);
+        item.thumbBlob = t.blob;
+        item.thumbExt = t.ext;
+        item.w = t.w;
+        item.h = t.h;
+      } catch (e) {
+        item.error = e.message;
+      }
+      queue.push(item);
+    }
+    renderQueue();
+    if (queue.length) $("queuePanel").hidden = false;
+  }
+
+  function renderQueue() {
+    var list = $("queueList");
+    list.innerHTML = "";
+    $("queueCount").textContent = queue.length;
+    queue.forEach(function (item, idx) {
+      var row = document.createElement("div");
+      row.className = "queue-item";
+
+      var thumb = document.createElement("img");
+      thumb.className = "queue-thumb";
+      if (item.thumbBlob) thumb.src = URL.createObjectURL(item.thumbBlob);
+      else thumb.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='76' height='106'%3E%3Crect width='76' height='106' fill='%231f1b16'/%3E%3C/svg%3E";
+      thumb.alt = "";
+      row.appendChild(thumb);
+
+      var main = document.createElement("div");
+      main.className = "qi-main";
+      var title = document.createElement("div");
+      title.className = "qi-title";
+      var fname = document.createElement("span");
+      fname.className = "fname";
+      fname.textContent = item.file.name;
+      title.appendChild(fname);
+      var fsize = document.createElement("span");
+      fsize.className = "fsize";
+      fsize.textContent = (item.file.size / 1024 / 1024).toFixed(2) + " MB · " + item.id;
+      title.appendChild(fsize);
+      main.appendChild(title);
+
+      if (item.error) {
+        var st = document.createElement("div");
+        st.className = "qi-status err";
+        st.textContent = "缩略图生成失败：" + item.error + "（仍可提交，公开页将直接使用原图）";
+        main.appendChild(st);
+      }
+
+      var form = document.createElement("div");
+      form.className = "qi-form";
+      item.collect = buildMetaFields(form, { attrs: uploadDefaults.attrs || {}, tags: uploadDefaults.tags || [] }, null);
+      main.appendChild(form);
+
+      var removeBtn = document.createElement("button");
+      removeBtn.type = "button";
+      removeBtn.className = "ghost";
+      removeBtn.textContent = "移出队列";
+      removeBtn.addEventListener("click", function () {
+        queue.splice(idx, 1);
+        renderQueue();
+        if (!queue.length) $("queuePanel").hidden = true;
+      });
+      main.appendChild(removeBtn);
+      row.appendChild(main);
+      list.appendChild(row);
+    });
+  }
+
+  $("dropzone").addEventListener("click", function () { $("fileInput").click(); });
+  $("dropzone").addEventListener("keydown", function (e) {
+    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); $("fileInput").click(); }
+  });
+  ["dragenter", "dragover"].forEach(function (ev) {
+    $("dropzone").addEventListener(ev, function (e) { e.preventDefault(); $("dropzone").classList.add("drag"); });
+  });
+  ["dragleave", "drop"].forEach(function (ev) {
+    $("dropzone").addEventListener(ev, function (e) { e.preventDefault(); $("dropzone").classList.remove("drag"); });
+  });
+  $("dropzone").addEventListener("drop", function (e) {
+    if (e.dataTransfer && e.dataTransfer.files) addFiles(Array.from(e.dataTransfer.files));
+  });
+  $("fileInput").addEventListener("change", function () {
+    if (this.files) addFiles(Array.from(this.files));
+    this.value = "";
+  });
+  $("clearQueueBtn").addEventListener("click", function () {
+    queue = [];
+    renderQueue();
+    $("queuePanel").hidden = true;
+  });
+
+  $("submitUploadBtn").addEventListener("click", async function () {
+    if (!queue.length || committing) return;
+    committing = true;
+    $("submitUploadBtn").disabled = true;
+    $("uploadLog").hidden = false;
+    $("uploadLog").textContent = "";
+    try {
+      var changes = [];
+      var newItems = [];
+      for (var i = 0; i < queue.length; i += 1) {
+        var item = queue[i];
+        if (!item.collect) continue;
+        var v = item.collect();
+        var record = {
+          id: item.id,
+          name: v.name || item.file.name.replace(/\.[^.]+$/, ""),
+          attrs: {},
+          tags: v.tags,
+          notes: v.notes,
+          original: "images/original/" + item.id + "." + item.ext,
+          thumb: item.thumbBlob ? ("images/thumb/" + item.id + "." + item.thumbExt) : ("images/original/" + item.id + "." + item.ext),
+          status: "visible",
+          createdAt: nowIso(),
+          updatedAt: nowIso(),
+          w: item.w || null,
+          h: item.h || null,
+          sourceName: item.file.name
+        };
+        for (var k in v.attrs) {
+          if (v.attrs[k] !== "" && v.attrs[k] !== null && v.attrs[k] !== undefined) record.attrs[k] = v.attrs[k];
+        }
+        newItems.push(record);
+
+        var origB64 = bufToB64(await item.file.arrayBuffer());
+        changes.push({ path: record.original, content: origB64 });
+        if (item.thumbBlob) {
+          var thumbB64 = bufToB64(await item.thumbBlob.arrayBuffer());
+          changes.push({ path: record.thumb, content: thumbB64 });
+        }
+        // 上传中随手补充字典值（不强制保存 schema，写库时一并带上）
+        var manDim = dimOf("manufacturer");
+        if (manDim && record.attrs.manufacturer) {
+          var list = db.dicts[manDim.dict];
+          if (list && list.indexOf(record.attrs.manufacturer) < 0) list.push(record.attrs.manufacturer);
+        }
+      }
+      db.items = newItems.concat(db.items);
+      changes.push({ path: "data/canisters.json", content: btoa(unescape(encodeURIComponent(JSON.stringify(db, null, 2) + "\n"))) });
+      logLine("提交 " + newItems.length + " 张图片（" + (changes.length - 1) + " 个文件）…");
+      var commit = await commitChanges(changes, "canister: add " + newItems.length + " item(s)");
+      logLine("✓ 提交成功：" + commit.sha.slice(0, 7) + " — 等待 Pages 构建…");
+      queue = [];
+      renderQueue();
+      $("queuePanel").hidden = true;
+      renderAll();
+      await pollBuild(commit.sha, "上传");
+      updateStats();
+    } catch (e) {
+      toast("上传失败：" + e.message, "err");
+      logLine("✗ 失败：" + e.message);
+      await loadDb().catch(function () {});
+    } finally {
+      committing = false;
+      $("submitUploadBtn").disabled = false;
+    }
+  });
+
+  function b64Utf8(str) {
+    return btoa(unescape(encodeURIComponent(str)));
+  }
+
+  /* ===== 图库管理 ===== */
+  var manageFilter = { q: "", unfilled: false };
+  var selected = {};
+
+  function itemComplete(item) {
+    var dims = db.dimensions.filter(function (d) { return d.type !== "tags"; });
+    for (var i = 0; i < dims.length; i += 1) {
+      var v = item.attrs ? item.attrs[dims[i].key] : null;
+      if (v === undefined || v === null || v === "") return false;
+    }
+    return !!(item.name && item.name.trim());
+  }
+
+  function manageMatch(item) {
+    if (manageFilter.unfilled && itemComplete(item)) return false;
+    if (manageFilter.q) {
+      var hay = (item.name || "") + " " + (item.notes || "") + " " + (item.sourceName || "");
+      for (var k in (item.attrs || {})) hay += " " + item.attrs[k];
+      (item.tags || []).forEach(function (t) { hay += " " + t; });
+      if (hay.toLowerCase().indexOf(manageFilter.q.toLowerCase()) < 0) return false;
+    }
+    return true;
+  }
+
+  function renderManage() {
+    var list = $("itemList");
+    list.innerHTML = "";
+    var shown = db.items.filter(manageMatch);
+    var checkedCount = 0;
+    shown.forEach(function (item) {
+      var row = document.createElement("div");
+      row.className = "row-item";
+
+      var check = document.createElement("input");
+      check.type = "checkbox";
+      check.className = "row-check";
+      check.checked = !!selected[item.id];
+      check.addEventListener("change", function () {
+        selected[item.id] = check.checked;
+        updateBulkBar();
+      });
+      row.appendChild(check);
+      if (check.checked) checkedCount += 1;
+
+      var thumb = document.createElement("img");
+      thumb.className = "row-thumb";
+      thumb.loading = "lazy";
+      thumb.src = item.thumb + "?v=" + (item.updatedAt || "").slice(0, 10);
+      thumb.alt = "";
+      row.appendChild(thumb);
+
+      var main = document.createElement("div");
+      main.className = "row-main";
+      var name = document.createElement("div");
+      name.className = "row-name";
+      name.textContent = item.name || item.id;
+      if (item.status === "hidden") {
+        var bH = document.createElement("span");
+        bH.className = "badge-hidden";
+        bH.textContent = " 隐藏 ";
+        name.appendChild(document.createTextNode(" "));
+        name.appendChild(bH);
+      }
+      main.appendChild(name);
+
+      var attrs = document.createElement("div");
+      attrs.className = "row-attrs";
+      var parts = [];
+      db.dimensions.forEach(function (d) {
+        if (d.type === "tags") return;
+        var v = item.attrs ? item.attrs[d.key] : null;
+        if (v !== undefined && v !== null && v !== "") parts.push(d.label + " " + v);
+      });
+      if (item.tags && item.tags.length) parts.push("标签 " + item.tags.join("/"));
+      attrs.textContent = parts.join(" · ") || "（元数据未补全）";
+      main.appendChild(attrs);
+
+      var actions = document.createElement("div");
+      actions.className = "row-actions";
+      actions.style.marginTop = "6px";
+
+      var editBtn = document.createElement("button");
+      editBtn.type = "button";
+      editBtn.textContent = "编辑";
+      editBtn.addEventListener("click", function () { toggleEdit(row, item); });
+      actions.appendChild(editBtn);
+
+      var visBtn = document.createElement("button");
+      visBtn.type = "button";
+      visBtn.className = "ghost";
+      visBtn.textContent = item.status === "hidden" ? "设为公开" : "设为隐藏";
+      visBtn.addEventListener("click", function () {
+        item.status = item.status === "hidden" ? "visible" : "hidden";
+        item.updatedAt = nowIso();
+        markDirty();
+        renderManage();
+      });
+      actions.appendChild(visBtn);
+
+      var delBtn = document.createElement("button");
+      delBtn.type = "button";
+      delBtn.className = "danger";
+      delBtn.textContent = "删除";
+      delBtn.addEventListener("click", function () {
+        if (!window.confirm("确定删除「" + (item.name || item.id) + "」？提交后将从公开库移除（Git 历史中仍留有记录）。")) return;
+        db.items = db.items.filter(function (it) { return it !== item; });
+        deletePaths.push(item.original);
+        if (item.thumb && item.thumb !== item.original) deletePaths.push(item.thumb);
+        delete selected[item.id];
+        markDirty("已删除 " + (markDelCount() || "") + " 张图片（含文件），尚未提交");
+        renderManage();
+      });
+      actions.appendChild(delBtn);
+
+      main.appendChild(actions);
+      row.appendChild(main);
+      list.appendChild(row);
+    });
+    $("manageEmpty").hidden = shown.length > 0;
+    updateBulkBar();
+  }
+
+  function markDelCount() {
+    return deletePaths.length ? Math.ceil(deletePaths.length / 2) : 0;
+  }
+
+  function toggleEdit(row, item) {
+    var next = row.nextSibling;
+    if (next && next.classList && next.classList.contains("edit-row")) {
+      next.remove();
+      return;
+    }
+    var editRow = document.createElement("div");
+    editRow.className = "queue-item edit-row";
+    var form = document.createElement("div");
+    form.className = "qi-form";
+    form.style.flex = "1";
+    var collect = buildMetaFields(form, item, null);
+    editRow.appendChild(form);
+    var saveBtn = document.createElement("button");
+    saveBtn.type = "button";
+    saveBtn.className = "primary";
+    saveBtn.textContent = "应用修改";
+    saveBtn.addEventListener("click", function () {
+      var v = collect();
+      item.name = v.name;
+      item.notes = v.notes;
+      item.tags = v.tags;
+      item.attrs = {};
+      for (var k in v.attrs) {
+        if (v.attrs[k] !== "" && v.attrs[k] !== null && v.attrs[k] !== undefined) item.attrs[k] = v.attrs[k];
+      }
+      item.updatedAt = nowIso();
+      markDirty();
+      renderManage();
+      toast("已应用（提交保存后生效）。");
+    });
+    editRow.appendChild(saveBtn);
+    row.parentNode.insertBefore(editRow, next ? next : null);
+  }
+
+  function updateBulkBar() {
+    var count = db.items.filter(function (it) { return selected[it.id]; }).length;
+    $("bulkBar").hidden = count === 0;
+    $("bulkCount").textContent = "已选 " + count + " 张";
+  }
+
+  function bulkSetStatus(status) {
+    db.items.forEach(function (it) {
+      if (selected[it.id]) {
+        it.status = status;
+        it.updatedAt = nowIso();
+      }
+    });
+    markDirty();
+    renderManage();
+  }
+
+  $("bulkHideBtn").addEventListener("click", function () { bulkSetStatus("hidden"); });
+  $("bulkShowBtn").addEventListener("click", function () { bulkSetStatus("visible"); });
+  $("bulkDeleteBtn").addEventListener("click", function () {
+    var targets = db.items.filter(function (it) { return selected[it.id]; });
+    if (!targets.length) return;
+    if (!window.confirm("确定删除所选 " + targets.length + " 张图片？此操作提交后生效。")) return;
+    targets.forEach(function (it) {
+      deletePaths.push(it.original);
+      if (it.thumb && it.thumb !== it.original) deletePaths.push(it.thumb);
+    });
+    db.items = db.items.filter(function (it) { return !selected[it.id]; });
+    selected = {};
+    markDirty("已删除 " + targets.length + " 张图片（含文件），尚未提交");
+    renderManage();
+  });
+
+  var manageTimer = null;
+  $("manageSearch").addEventListener("input", function () {
+    clearTimeout(manageTimer);
+    manageTimer = setTimeout(function () {
+      manageFilter.q = $("manageSearch").value.trim();
+      renderManage();
+    }, 160);
+  });
+  $("manageUnfilled").addEventListener("change", function () {
+    manageFilter.unfilled = this.checked;
+    renderManage();
+  });
+  $("reloadDbBtn").addEventListener("click", function () {
+    if (dbDirty && !window.confirm("有未保存的修改，重新加载将丢弃，确定？")) return;
+    loadDb().then(function () { toast("已从仓库重新加载。", "ok"); })
+      .catch(function (e) { toast(e.message, "err"); });
+  });
+
+  /* ===== 字典与维度 ===== */
+  function renderSchema() {
+    var host = $("dictEditors");
+    host.innerHTML = "";
+    Object.keys(db.dicts || {}).forEach(function (dictKey) {
+      var panel = document.createElement("div");
+      panel.style.marginBottom = "14px";
+      var title = document.createElement("div");
+      title.className = "row-name";
+      title.textContent = dictKey;
+      title.style.marginBottom = "8px";
+      panel.appendChild(title);
+      var list = document.createElement("div");
+      list.className = "dict-list";
+      db.dicts[dictKey].forEach(function (val, idx) {
+        var item = document.createElement("span");
+        item.className = "dict-item";
+        item.appendChild(document.createTextNode(val));
+        var rm = document.createElement("button");
+        rm.type = "button";
+        rm.className = "ghost";
+        rm.textContent = "×";
+        rm.addEventListener("click", function () {
+          db.dicts[dictKey].splice(idx, 1);
+          markDirty();
+          renderSchema();
+        });
+        item.appendChild(rm);
+        list.appendChild(item);
+      });
+      panel.appendChild(list);
+      var addRow = document.createElement("div");
+      addRow.className = "field-row";
+      var addIn = document.createElement("input");
+      addIn.type = "text";
+      addIn.placeholder = "新增值，如 Kodak";
+      addIn.style.width = "200px";
+      var addBtn = document.createElement("button");
+      addBtn.type = "button";
+      addBtn.textContent = "添加";
+      addBtn.addEventListener("click", function () {
+        var v = addIn.value.trim();
+        if (!v) return;
+        if (db.dicts[dictKey].indexOf(v) >= 0) { toast("该值已存在。"); return; }
+        db.dicts[dictKey].push(v);
+        addIn.value = "";
+        markDirty();
+        renderSchema();
+      });
+      addRow.appendChild(addIn);
+      addRow.appendChild(addBtn);
+      panel.appendChild(addRow);
+      host.appendChild(panel);
+    });
+
+    var dimList = $("dimList");
+    dimList.innerHTML = "";
+    db.dimensions.forEach(function (dim, idx) {
+      var row = document.createElement("div");
+      row.className = "row-item";
+      var main = document.createElement("div");
+      main.className = "row-main";
+      var name = document.createElement("div");
+      name.className = "row-name";
+      name.textContent = dim.label + "（" + dim.key + "）";
+      main.appendChild(name);
+      var desc = document.createElement("div");
+      desc.className = "row-attrs";
+      var typeLabel = { dict: "字典", enum: "枚举", number: "数值", tags: "标签" }[dim.type] || dim.type;
+      var vals = dim.type === "dict" ? dictOf(dim).join(" / ") : (dim.type === "tags" ? "（自动收集）" : (dim.values || dim.tiers || []).join(" / "));
+      desc.textContent = "类型：" + typeLabel + (vals ? " · 可选值：" + vals : "");
+      main.appendChild(desc);
+      var actions = document.createElement("div");
+      actions.className = "row-actions";
+      actions.style.marginTop = "6px";
+      var rm = document.createElement("button");
+      rm.type = "button";
+      rm.className = "danger";
+      rm.textContent = "移除维度";
+      rm.addEventListener("click", function () {
+        if (!window.confirm("移除维度「" + dim.label + "」？条目中已填写的数据保留，但界面不再显示。")) return;
+        db.dimensions.splice(idx, 1);
+        markDirty();
+        renderSchema();
+      });
+      actions.appendChild(rm);
+      main.appendChild(actions);
+      row.appendChild(main);
+      dimList.appendChild(row);
+    });
+  }
+
+  $("addDimBtn").addEventListener("click", function () {
+    var key = $("newDimKey").value.trim();
+    var label = $("newDimLabel").value.trim();
+    var type = $("newDimType").value;
+    var valsRaw = $("newDimValues").value.trim();
+    if (!key || !label) { toast("请填写维度标识与显示名。"); return; }
+    if (!/^[a-z][a-z0-9]*$/i.test(key)) { toast("维度标识需为英文字母开头的字母数字。"); return; }
+    if (dimOf(key)) { toast("维度 " + key + " 已存在。"); return; }
+    var dim = { key: key, label: label, type: type };
+    if (type === "enum") dim.values = valsRaw.split(/[,，]/).map(function (s) { return s.trim(); }).filter(Boolean);
+    if (type === "number") dim.tiers = valsRaw.split(/[,，]/).map(function (s) { return Number(s.trim()); }).filter(function (n) { return n > 0; });
+    if (type === "dict") {
+      var dictKey = key + "Dict";
+      dim.dict = dictKey;
+      db.dicts[dictKey] = valsRaw.split(/[,，]/).map(function (s) { return s.trim(); }).filter(Boolean);
+    }
+    db.dimensions.push(dim);
+    $("newDimKey").value = "";
+    $("newDimLabel").value = "";
+    $("newDimValues").value = "";
+    markDirty();
+    renderSchema();
+    toast("维度已添加（保存后前后台生效）。");
+  });
+
+  /* ===== 保存（统一提交） ===== */
+  $("saveBtn").addEventListener("click", async function () {
+    if (!dbDirty || committing) return;
+    committing = true;
+    $("saveBtn").disabled = true;
+    try {
+      var changes = [];
+      deletePaths.forEach(function (p) { changes.push({ path: p, content: null }); });
+      changes.push({ path: "data/canisters.json", content: b64Utf8(JSON.stringify(db, null, 2) + "\n") });
+      var summary = "canister: update library (" + db.items.length + " items)";
+      var commit = await commitChanges(changes, summary);
+      deletePaths = [];
+      dbDirty = false;
+      $("saveBar").hidden = true;
+      updateStats();
+      toast("已提交：" + commit.sha.slice(0, 7) + "，等待 Pages 构建…");
+      await pollBuild(commit.sha, "修改");
+    } catch (e) {
+      toast("保存失败：" + e.message, "err");
+    } finally {
+      committing = false;
+      $("saveBtn").disabled = false;
+    }
+  });
+
+  $("discardBtn").addEventListener("click", function () {
+    if (!window.confirm("放弃全部未保存修改，从仓库重新加载？")) return;
+    loadDb().catch(function (e) { toast(e.message, "err"); });
+  });
+
+  /* ===== 连接流程 ===== */
+  async function connect() {
+    var pat = $("cfgPat").value.trim();
+    cfg = {
+      owner: $("cfgOwner").value.trim() || "ohsobrkn",
+      repo: $("cfgRepo").value.trim() || "canister-library",
+      branch: $("cfgBranch").value.trim() || "main"
+    };
+    if (!pat) { toast("请填写 PAT。", "err"); return; }
+    $("authHint").textContent = "连接中…";
+    try {
+      var repo = await ghJson("/repos/" + cfg.owner + "/" + cfg.repo);
+      localStorage.setItem(CFG_KEY, JSON.stringify(cfg));
+      localStorage.setItem(PAT_KEY, pat);
+      connected = true;
+      $("workArea").hidden = false;
+      $("authHint").textContent = "已连接 " + cfg.owner + "/" + cfg.repo + "（默认分支 " + (repo.default_branch || cfg.branch) + "）";
+      renderUploadDefaults();
+      await loadDb();
+      refreshBuildStatus();
+      toast("连接成功，数据已加载。", "ok");
+    } catch (e) {
+      connected = false;
+      $("authHint").textContent = "连接失败：" + e.message;
+      $("authHint").style.color = "var(--danger)";
+      setTimeout(function () { $("authHint").style.color = ""; }, 4000);
+      $("authHint").textContent = "连接失败：" + e.message + " — 请检查仓库与 PAT（fine-grained，仅本仓库 Contents 读写权限）。";
+    }
+  }
+
+  $("saveCfgBtn").addEventListener("click", connect);
+  $("clearCfgBtn").addEventListener("click", function () {
+    localStorage.removeItem(PAT_KEY);
+    localStorage.removeItem(CFG_KEY);
+    $("cfgPat").value = "";
+    $("cfgPat").dataset.cleared = "1";
+    $("workArea").hidden = true;
+    toast("本机凭据已清除。");
+  });
+
+  function renderAll() {
+    renderUploadDefaults();
+    renderManage();
+    renderSchema();
+  }
+
+  window.addEventListener("beforeunload", function (e) {
+    if (dbDirty || queue.length) {
+      e.preventDefault();
+      e.returnValue = "";
+    }
+  });
+
+  /* 启动：已有配置则自动连接 */
+  if (loadCfg()) {
+    connect();
+  }
+})();
+</script>
+</body>
+</html>
