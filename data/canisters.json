@@ -1,73 +1,26 @@
 {
   "version": 1,
   "dimensions": [
-    {
-      "key": "manufacturer",
-      "label": "åå",
-      "type": "dict",
-      "dict": "manufacturer"
-    },
-    {
-      "key": "filmType",
-      "label": "è¶çç±»å",
-      "type": "enum",
-      "values": [
-        "å½©è²è´ç",
-        "å½©è²åè½¬ç",
-        "é»ç½è´ç",
-        "é»ç½åè½¬ç",
-        "çµå½±å·"
-      ]
-    },
-    {
-      "key": "iso",
-      "label": "ISO",
-      "type": "number",
-      "tiers": [
-        50,
-        100,
-        200,
-        400,
-        800,
-        1600,
-        3200
-      ]
-    },
-    {
-      "key": "tags",
-      "label": "æ ç­¾",
-      "type": "tags"
-    }
+    { "key": "manufacturer", "label": "厂商", "type": "dict", "dict": "manufacturer" },
+    { "key": "filmType", "label": "胶片类型", "type": "enum", "values": ["彩色负片", "彩色反转片", "黑白负片", "黑白反转片", "电影卷"] },
+    { "key": "iso", "label": "ISO", "type": "number", "tiers": [50, 100, 200, 400, 800, 1600, 3200] },
+    { "key": "tags", "label": "标签", "type": "tags" }
   ],
   "dicts": {
-    "manufacturer": [
-      "Kodak",
-      "Fujifilm",
-      "Ilford",
-      "Agfa",
-      "CineStill",
-      "Foma"
-    ]
+    "manufacturer": ["Kodak", "Fujifilm", "Ilford", "Agfa", "CineStill", "Foma"]
   },
   "items": [
     {
       "id": "c001",
       "name": "Portra 400",
-      "attrs": {
-        "manufacturer": "Kodak",
-        "filmType": "å½©è²è´ç",
-        "iso": 400
-      },
-      "tags": [
-        "å¨äº§",
-        "äººå"
-      ],
-      "notes": "ç¤ºä¾æ¡ç®ï¼SVG å ä½å¾ï¼å¯å¨ç®¡çç«¯å é¤åä¸ä¼ çå®æ«æä»¶ã",
+      "attrs": { "manufacturer": "Kodak", "filmType": "彩色负片", "iso": 400 },
+      "tags": ["在产", "人像"],
+      "notes": "示例条目：SVG 占位图，可在管理端删除后上传真实扫描件。",
       "original": "images/original/c001.svg",
       "thumb": "images/thumb/c001.svg",
       "status": "visible",
       "createdAt": "2026-10-02T00:00:00+08:00",
-      "updatedAt": "2026-10-01T18:02:05.664Z",
+      "updatedAt": "2026-10-02T00:00:00+08:00",
       "w": 300,
       "h": 420,
       "sourceName": "portra-400.svg"
@@ -75,16 +28,9 @@
     {
       "id": "c002",
       "name": "Velvia 50",
-      "attrs": {
-        "manufacturer": "Fujifilm",
-        "filmType": "å½©è²åè½¬ç",
-        "iso": 50
-      },
-      "tags": [
-        "å¨äº§",
-        "é£å"
-      ],
-      "notes": "ç¤ºä¾æ¡ç®ï¼SVG å ä½å¾ã",
+      "attrs": { "manufacturer": "Fujifilm", "filmType": "彩色反转片", "iso": 50 },
+      "tags": ["在产", "风光"],
+      "notes": "示例条目：SVG 占位图。",
       "original": "images/original/c002.svg",
       "thumb": "images/thumb/c002.svg",
       "status": "visible",
@@ -97,16 +43,9 @@
     {
       "id": "c003",
       "name": "HP5 Plus 400",
-      "attrs": {
-        "manufacturer": "Ilford",
-        "filmType": "é»ç½è´ç",
-        "iso": 400
-      },
-      "tags": [
-        "å¨äº§",
-        "è¡æ"
-      ],
-      "notes": "ç¤ºä¾æ¡ç®ï¼SVG å ä½å¾ã",
+      "attrs": { "manufacturer": "Ilford", "filmType": "黑白负片", "iso": 400 },
+      "tags": ["在产", "街拍"],
+      "notes": "示例条目：SVG 占位图。",
       "original": "images/original/c003.svg",
       "thumb": "images/thumb/c003.svg",
       "status": "visible",
@@ -119,15 +58,9 @@
     {
       "id": "c004",
       "name": "APX 100",
-      "attrs": {
-        "manufacturer": "Agfa",
-        "filmType": "é»ç½è´ç",
-        "iso": 100
-      },
-      "tags": [
-        "åäº§"
-      ],
-      "notes": "ç¤ºä¾æ¡ç®ï¼SVG å ä½å¾ã",
+      "attrs": { "manufacturer": "Agfa", "filmType": "黑白负片", "iso": 100 },
+      "tags": ["停产"],
+      "notes": "示例条目：SVG 占位图。",
       "original": "images/original/c004.svg",
       "thumb": "images/thumb/c004.svg",
       "status": "visible",
@@ -140,16 +73,9 @@
     {
       "id": "c005",
       "name": "800T",
-      "attrs": {
-        "manufacturer": "CineStill",
-        "filmType": "çµå½±å·",
-        "iso": 800
-      },
-      "tags": [
-        "å¨äº§",
-        "å¤æ¯"
-      ],
-      "notes": "ç¤ºä¾æ¡ç®ï¼SVG å ä½å¾ã",
+      "attrs": { "manufacturer": "CineStill", "filmType": "电影卷", "iso": 800 },
+      "tags": ["在产", "夜景"],
+      "notes": "示例条目：SVG 占位图。",
       "original": "images/original/c005.svg",
       "thumb": "images/thumb/c005.svg",
       "status": "visible",
@@ -162,15 +88,9 @@
     {
       "id": "c006",
       "name": "R100",
-      "attrs": {
-        "manufacturer": "Foma",
-        "filmType": "é»ç½åè½¬ç",
-        "iso": 100
-      },
-      "tags": [
-        "å¨äº§"
-      ],
-      "notes": "ç¤ºä¾æ¡ç®ï¼SVG å ä½å¾ã",
+      "attrs": { "manufacturer": "Foma", "filmType": "黑白反转片", "iso": 100 },
+      "tags": ["在产"],
+      "notes": "示例条目：SVG 占位图。",
       "original": "images/original/c006.svg",
       "thumb": "images/thumb/c006.svg",
       "status": "visible",
