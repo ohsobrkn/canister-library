@@ -330,6 +330,7 @@
   resetBtn.addEventListener("click", function () {
     searchEl.value = "";
     query = "";
+    window.history.replaceState(null, "", window.location.pathname);
     readUrl();
     buildFilterUi();
     applyFilters();

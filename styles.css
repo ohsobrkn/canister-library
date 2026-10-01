@@ -32,6 +32,9 @@
 
 * { box-sizing: border-box; }
 
+/* 防止显式 display:flex 等覆盖 hidden 属性 */
+[hidden] { display: none !important; }
+
 html, body { margin: 0; padding: 0; }
 
 body {
