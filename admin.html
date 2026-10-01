@@ -308,28 +308,60 @@
   }
 
   async function loadDb() {
+    var apiPath = "/repos/" + cfg.owner + "/" + cfg.repo + "/contents/data/canisters.json?ref=" + cfg.branch;
     var rawUrl = "https://raw.githubusercontent.com/" + cfg.owner + "/" + cfg.repo + "/" + cfg.branch + "/data/canisters.json";
     var cdnUrl = "https://cdn.jsdelivr.net/gh/" + cfg.owner + "/" + cfg.repo + "@" + cfg.branch + "/data/canisters.json";
+    var pat = localStorage.getItem(PAT_KEY);
     var json = null;
     var viaCdn = false;
     var notFound = false;
-    try {
-      var r = await fetch(rawUrl + "?cb=" + Date.now(), { cache: "no-store" });
-      if (r.status === 404) notFound = true;
-      else if (r.ok) json = await r.json();
-    } catch (e) { /* raw 不可达（部分网络环境会阻断），走 CDN 兜底 */ }
+
+    // 带 8 秒超时的 fetch：被网络阻断的域名会长时间挂起而不是立即失败
+    function fetchT(url, opts, ms) {
+      var ctl = new AbortController();
+      var timer = setTimeout(function () { ctl.abort(); }, ms || 8000);
+      return fetch(url, Object.assign({}, opts, { signal: ctl.signal, cache: "no-store" }))
+        .finally(function () { clearTimeout(timer); });
+    }
+
+    // 1) 有 PAT 时优先走 api.github.com（本管理端所有写操作同域名，连通性已被验证，秒回且无缓存）
+    if (pat) {
+      try {
+        var ra = await fetchT("https://api.github.com" + apiPath, {
+          headers: {
+            "Authorization": "Bearer " + pat,
+            "Accept": "application/vnd.github+json",
+            "X-GitHub-Api-Version": "2022-11-28",
+          },
+        });
+        if (ra.status === 404) notFound = true;
+        else if (ra.ok) {
+          var content = await ra.json();
+          json = JSON.parse(atob(content.content.replace(/\s/g, "")));
+        }
+      } catch (e) { /* API 通道异常，退回公开 CDN 通道 */ }
+    }
+    // 2) raw.githubusercontent（匿名直连，部分网络环境会阻断 → 挂起后超时）
     if (json === null && !notFound) {
       try {
-        var r2 = await fetch(cdnUrl + "?cb=" + Date.now(), { cache: "no-store" });
+        var r = await fetchT(rawUrl + "?cb=" + Date.now());
+        if (r.status === 404) notFound = true;
+        else if (r.ok) json = await r.json();
+      } catch (e) { /* raw 不可达，走 CDN 兜底 */ }
+    }
+    // 3) jsdelivr CDN 兜底（带 CORS 头，但缓存有滞后）
+    if (json === null && !notFound) {
+      try {
+        var r2 = await fetchT(cdnUrl + "?cb=" + Date.now());
         if (r2.status === 404) notFound = true;
         else if (r2.ok) { json = await r2.json(); viaCdn = true; }
-      } catch (e) { /* 两路都不可达 */ }
+      } catch (e) { /* 三路都不可达 */ }
     }
     if (notFound) {
       db = defaultDb();
       markDirty("仓库还没有数据文件，首次保存将创建");
     } else if (json === null) {
-      throw new Error("读取 canisters.json 失败：raw.githubusercontent 与 jsdelivr CDN 均不可达，请检查网络后点「从仓库重新加载」");
+      throw new Error("读取 canisters.json 失败：api.github.com、raw.githubusercontent 与 jsdelivr CDN 均不可达，请检查网络后点「从仓库重新加载」");
     } else {
       db = json;
       dbDirty = false;
