@@ -1167,8 +1167,8 @@
       connected = true;
       $("workArea").hidden = false;
       $("authHint").textContent = "已连接 " + cfg.owner + "/" + cfg.repo + "（默认分支 " + (repo.default_branch || cfg.branch) + "）";
-      renderUploadDefaults();
       await loadDb();
+      renderUploadDefaults();   // buildMetaFields 依赖 db，必须在 loadDb 之后执行
       refreshBuildStatus();
       toast("连接成功，数据已加载。", "ok");
     } catch (e) {
