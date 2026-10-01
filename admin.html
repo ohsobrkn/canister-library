@@ -1175,10 +1175,14 @@
       toast("连接成功，数据已加载。", "ok");
     } catch (e) {
       connected = false;
-      $("authHint").textContent = "连接失败：" + e.message;
-      $("authHint").style.color = "var(--danger)";
-      setTimeout(function () { $("authHint").style.color = ""; }, 4000);
-      $("authHint").textContent = "连接失败：" + e.message + " — 请检查仓库与 PAT（fine-grained，仅本仓库 Contents 读写权限）。";
+      var extra = "";
+      if (/Bad credentials|401/i.test(e.message)) {
+        // 401 = token 字符串本身不被 GitHub 认可（权限不足会报 404 而非 401），给出自诊断
+        var p = pat.trim();
+        var kind = p.indexOf("github_pat_") === 0 ? "fine-grained（正确格式，约 93 字符）" : p.indexOf("ghp_") === 0 ? "classic（40 字符）" : "前缀异常（fine-grained 应以 github_pat_ 开头、classic 应以 ghp_ 开头）";
+        extra = " 诊断：当前输入 " + p.length + " 字符，识别为 " + kind + "。Bad credentials 表示令牌字符串本身无效——最常见原因是复制不完整或含多余字符，请回到 GitHub 令牌页面用 Copy 按钮完整复制后重新粘贴，或重新生成一个。";
+      }
+      $("authHint").textContent = "连接失败：" + e.message + extra + "（fine-grained，仅本仓库 Contents 读写权限）。";
     }
   }
 
