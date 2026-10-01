@@ -337,7 +337,9 @@
         if (ra.status === 404) notFound = true;
         else if (ra.ok) {
           var content = await ra.json();
-          json = JSON.parse(atob(content.content.replace(/\s/g, "")));
+          // atob 产出的是 Latin-1 字符串，必须按 UTF-8 解码，否则中文变 mojibake
+          var bytes = Uint8Array.from(atob(content.content.replace(/\s/g, "")), function (c) { return c.charCodeAt(0); });
+          json = JSON.parse(new TextDecoder("utf-8").decode(bytes));
         }
       } catch (e) { /* API 通道异常，退回公开 CDN 通道 */ }
     }
