@@ -51,23 +51,6 @@
   },
   "items": [
     {
-      "id": "cmupuebrquejy",
-      "name": "E2E 测试图",
-      "attrs": {
-        "iso": 400
-      },
-      "tags": [],
-      "notes": "",
-      "original": "images/original/cmupuebrquejy.png",
-      "thumb": "images/thumb/cmupuebrquejy.webp",
-      "status": "visible",
-      "createdAt": "2026-10-01T18:03:13.016Z",
-      "updatedAt": "2026-10-01T18:03:13.016Z",
-      "w": 1,
-      "h": 1,
-      "sourceName": "e2e-test.png"
-    },
-    {
       "id": "c001",
       "name": "Portra 400",
       "attrs": {
