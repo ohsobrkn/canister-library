@@ -186,11 +186,11 @@
   }
 
   /* ===== GitHub API 封装 ===== */
-  function ghJson(path, method, body) {
+  function ghJson(path, method, body, tokenOverride) {
     var opts = {
       method: method || "GET",
       headers: {
-        "Authorization": "Bearer " + localStorage.getItem(PAT_KEY),
+        "Authorization": "Bearer " + (tokenOverride || localStorage.getItem(PAT_KEY)),
         "Accept": "application/vnd.github+json",
         "X-GitHub-Api-Version": "2022-11-28"
       }
@@ -1163,7 +1163,9 @@
     if (!pat) { toast("请填写 PAT。", "err"); return; }
     $("authHint").textContent = "连接中…";
     try {
-      var repo = await ghJson("/repos/" + cfg.owner + "/" + cfg.repo);
+      // 用输入框当前值发起请求（tokenOverride），而非 localStorage 里的旧令牌——
+      // 否则旧令牌失效后，用户粘贴新令牌也永远连不上（新值只在成功后才落盘）
+      var repo = await ghJson("/repos/" + cfg.owner + "/" + cfg.repo, undefined, undefined, pat);
       localStorage.setItem(CFG_KEY, JSON.stringify(cfg));
       localStorage.setItem(PAT_KEY, pat);
       connected = true;
