@@ -58,6 +58,197 @@
   },
   "items": [
     {
+      "id": "cmuqq91jnn7pi",
+      "name": "HARMAN RED",
+      "attrs": {
+        "manufacturer": "Ilford",
+        "filmType": "彩色负片",
+        "iso": 125
+      },
+      "tags": [
+        "在产",
+        "风格卷"
+      ],
+      "notes": "",
+      "original": "images/original/cmuqq91jnn7pi.png",
+      "thumb": "images/thumb/cmuqq91jnn7pi.webp",
+      "status": "visible",
+      "createdAt": "2026-10-02T09:12:10.184Z",
+      "updatedAt": "2026-10-02T09:12:10.184Z",
+      "w": 1024,
+      "h": 1024,
+      "sourceName": "nerv-image-32-0002.png"
+    },
+    {
+      "id": "cmuqq91k8ihtd",
+      "name": "HARMAN AZURE",
+      "attrs": {
+        "manufacturer": "Ilford",
+        "filmType": "彩色负片",
+        "iso": 125
+      },
+      "tags": [
+        "在产",
+        "风格卷"
+      ],
+      "notes": "",
+      "original": "images/original/cmuqq91k8ihtd.png",
+      "thumb": "images/thumb/cmuqq91k8ihtd.webp",
+      "status": "visible",
+      "createdAt": "2026-10-02T09:12:10.188Z",
+      "updatedAt": "2026-10-02T09:12:10.188Z",
+      "w": 1024,
+      "h": 1024,
+      "sourceName": "nerv-image-33-0002.png"
+    },
+    {
+      "id": "cmuqq91kpoddb",
+      "name": "Portra 400",
+      "attrs": {
+        "manufacturer": "Kodak",
+        "filmType": "彩色负片",
+        "iso": 400
+      },
+      "tags": [
+        "在产"
+      ],
+      "notes": "炮塔400",
+      "original": "images/original/cmuqq91kpoddb.png",
+      "thumb": "images/thumb/cmuqq91kpoddb.webp",
+      "status": "visible",
+      "createdAt": "2026-10-02T09:12:10.191Z",
+      "updatedAt": "2026-10-02T09:12:10.191Z",
+      "w": 2048,
+      "h": 2048,
+      "sourceName": "nerv-image-34-0001.png"
+    },
+    {
+      "id": "cmuqq91lgvjnp",
+      "name": "C200",
+      "attrs": {
+        "manufacturer": "Fujifilm",
+        "filmType": "彩色负片",
+        "iso": 200
+      },
+      "tags": [
+        "在产"
+      ],
+      "notes": "美版富士C200(柯达代工，金200换皮)",
+      "original": "images/original/cmuqq91lgvjnp.png",
+      "thumb": "images/thumb/cmuqq91lgvjnp.webp",
+      "status": "visible",
+      "createdAt": "2026-10-02T09:12:10.198Z",
+      "updatedAt": "2026-10-02T09:12:10.198Z",
+      "w": 2048,
+      "h": 2048,
+      "sourceName": "nerv-image-21-0001.png"
+    },
+    {
+      "id": "cmuqq91mwegsq",
+      "name": "Portra 800",
+      "attrs": {
+        "manufacturer": "Kodak",
+        "filmType": "彩色负片",
+        "iso": 800
+      },
+      "tags": [
+        "在产"
+      ],
+      "notes": "炮塔800",
+      "original": "images/original/cmuqq91mwegsq.png",
+      "thumb": "images/thumb/cmuqq91mwegsq.webp",
+      "status": "visible",
+      "createdAt": "2026-10-02T09:12:10.214Z",
+      "updatedAt": "2026-10-02T09:12:10.214Z",
+      "w": 2048,
+      "h": 2048,
+      "sourceName": "nerv-image-14-0001 (1).png"
+    },
+    {
+      "id": "cmuqq91oceerc",
+      "name": "Portra 160",
+      "attrs": {
+        "manufacturer": "Kodak",
+        "filmType": "彩色负片",
+        "iso": 160
+      },
+      "tags": [
+        "在产"
+      ],
+      "notes": "炮塔160",
+      "original": "images/original/cmuqq91oceerc.png",
+      "thumb": "images/thumb/cmuqq91oceerc.webp",
+      "status": "visible",
+      "createdAt": "2026-10-02T09:12:10.230Z",
+      "updatedAt": "2026-10-02T09:12:10.230Z",
+      "w": 2048,
+      "h": 2048,
+      "sourceName": "nerv-image-2-0001.png"
+    },
+    {
+      "id": "cmuqqdb4fga5g",
+      "name": "C200",
+      "attrs": {
+        "manufacturer": "Fujifilm",
+        "filmType": "彩色负片",
+        "iso": 400
+      },
+      "tags": [
+        "在产"
+      ],
+      "notes": "美版富士C400(柯达代工，全能400换皮)",
+      "original": "images/original/cmuqqdb4fga5g.png",
+      "thumb": "images/thumb/cmuqqdb4fga5g.webp",
+      "status": "visible",
+      "createdAt": "2026-10-02T09:12:10.242Z",
+      "updatedAt": "2026-10-02T09:12:10.242Z",
+      "w": 1024,
+      "h": 1024,
+      "sourceName": "nerv-image-25-0001.png"
+    },
+    {
+      "id": "cmuqqoajsique",
+      "name": "OptiColour 200",
+      "attrs": {
+        "manufacturer": "Optik Oldschool",
+        "filmType": "彩色负片",
+        "iso": 200
+      },
+      "tags": [
+        "在产"
+      ],
+      "notes": "",
+      "original": "images/original/cmuqqoajsique.png",
+      "thumb": "images/thumb/cmuqqoajsique.webp",
+      "status": "visible",
+      "createdAt": "2026-10-02T09:12:10.244Z",
+      "updatedAt": "2026-10-02T09:12:10.244Z",
+      "w": 1024,
+      "h": 1024,
+      "sourceName": "nerv-image-31-0002.png"
+    },
+    {
+      "id": "cmuqqptf06hj8",
+      "name": "HF 2",
+      "attrs": {
+        "manufacturer": "LFANI",
+        "filmType": "黑白负片",
+        "iso": 100
+      },
+      "tags": [
+        "在产"
+      ],
+      "notes": "疑似乐凯1023飞机卷分装",
+      "original": "images/original/cmuqqptf06hj8.png",
+      "thumb": "images/thumb/cmuqqptf06hj8.webp",
+      "status": "visible",
+      "createdAt": "2026-10-02T09:12:10.246Z",
+      "updatedAt": "2026-10-02T09:12:10.246Z",
+      "w": 2048,
+      "h": 2048,
+      "sourceName": "nerv-image-12-0002.png"
+    },
+    {
       "id": "cmuqjd11gm9jl",
       "name": "AHU5207",
       "attrs": {
