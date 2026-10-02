@@ -56,6 +56,182 @@
   },
   "items": [
     {
+      "id": "cmuqjd11gm9jl",
+      "name": "AHU5207",
+      "attrs": {
+        "manufacturer": "喏斯ROSFILM",
+        "filmType": "电影卷",
+        "iso": 250
+      },
+      "tags": [
+        "在产",
+        "国内分装"
+      ],
+      "notes": "",
+      "original": "images/original/cmuqjd11gm9jl.png",
+      "thumb": "images/thumb/cmuqjd11gm9jl.webp",
+      "status": "visible",
+      "createdAt": "2026-10-02T05:46:33.082Z",
+      "updatedAt": "2026-10-02T05:46:33.082Z",
+      "w": 1254,
+      "h": 1254,
+      "sourceName": "喏斯​无碳5207 135暗盒.png"
+    },
+    {
+      "id": "cmuqjd12638js",
+      "name": "AHU5213",
+      "attrs": {
+        "manufacturer": "喏斯ROSFILM",
+        "filmType": "电影卷",
+        "iso": 200
+      },
+      "tags": [
+        "在产",
+        "国内分装"
+      ],
+      "notes": "",
+      "original": "images/original/cmuqjd12638js.png",
+      "thumb": "images/thumb/cmuqjd12638js.webp",
+      "status": "visible",
+      "createdAt": "2026-10-02T05:46:33.094Z",
+      "updatedAt": "2026-10-02T05:46:33.094Z",
+      "w": 2048,
+      "h": 2048,
+      "sourceName": "喏斯​无碳AHU5213 135暗盒.png"
+    },
+    {
+      "id": "cmuqjd7006233",
+      "name": "过期Vision2 5205",
+      "attrs": {
+        "manufacturer": "菲林啃噬者",
+        "filmType": "电影卷",
+        "iso": 100
+      },
+      "tags": [
+        "停产",
+        "国内分装"
+      ],
+      "notes": "",
+      "original": "images/original/cmuqjd7006233.png",
+      "thumb": "images/thumb/cmuqjd7006233.webp",
+      "status": "visible",
+      "createdAt": "2026-10-02T05:46:33.111Z",
+      "updatedAt": "2026-10-02T05:46:33.111Z",
+      "w": 1024,
+      "h": 1536,
+      "sourceName": "过期Vision2 5205 iso100 135暗盒.png"
+    },
+    {
+      "id": "cmuqjd70xvf26",
+      "name": "过期Vision2 5218",
+      "attrs": {
+        "manufacturer": "菲林啃噬者",
+        "filmType": "电影卷",
+        "iso": 100
+      },
+      "tags": [
+        "停产",
+        "国内分装"
+      ],
+      "notes": "",
+      "original": "images/original/cmuqjd70xvf26.png",
+      "thumb": "images/thumb/cmuqjd70xvf26.webp",
+      "status": "visible",
+      "createdAt": "2026-10-02T05:46:33.125Z",
+      "updatedAt": "2026-10-02T05:46:33.125Z",
+      "w": 1728,
+      "h": 2320,
+      "sourceName": "过期Vision2 5218 iso100“允许外带” 135暗盒.png"
+    },
+    {
+      "id": "cmuqjdbu8ibrp",
+      "name": "5294",
+      "attrs": {
+        "manufacturer": "岳CrystalFilm",
+        "filmType": "电影卷",
+        "iso": 100
+      },
+      "tags": [
+        "在产",
+        "国内分装"
+      ],
+      "notes": "电影反转片",
+      "original": "images/original/cmuqjdbu8ibrp.png",
+      "thumb": "images/thumb/cmuqjdbu8ibrp.webp",
+      "status": "visible",
+      "createdAt": "2026-10-02T05:46:33.144Z",
+      "updatedAt": "2026-10-02T05:46:33.144Z",
+      "w": 1728,
+      "h": 2320,
+      "sourceName": "岳老板5294 135暗盒.png"
+    },
+    {
+      "id": "cmuqjdbvf677q",
+      "name": "AHU5203",
+      "attrs": {
+        "manufacturer": "岳CrystalFilm",
+        "filmType": "电影卷",
+        "iso": 50
+      },
+      "tags": [
+        "在产",
+        "国内分装"
+      ],
+      "notes": "",
+      "original": "images/original/cmuqjdbvf677q.png",
+      "thumb": "images/thumb/cmuqjdbvf677q.webp",
+      "status": "visible",
+      "createdAt": "2026-10-02T05:46:33.158Z",
+      "updatedAt": "2026-10-02T05:46:33.158Z",
+      "w": 1728,
+      "h": 2320,
+      "sourceName": "岳老板无碳AHU5203 135暗盒.png"
+    },
+    {
+      "id": "cmuqjdbwqqkd7",
+      "name": "AHU5207",
+      "attrs": {
+        "manufacturer": "岳CrystalFilm",
+        "filmType": "电影卷",
+        "iso": 250
+      },
+      "tags": [
+        "在产",
+        "国内分装"
+      ],
+      "notes": "",
+      "original": "images/original/cmuqjdbwqqkd7.png",
+      "thumb": "images/thumb/cmuqjdbwqqkd7.webp",
+      "status": "visible",
+      "createdAt": "2026-10-02T05:46:33.170Z",
+      "updatedAt": "2026-10-02T05:46:33.170Z",
+      "w": 1728,
+      "h": 2320,
+      "sourceName": "岳老板无碳AHU5207 135暗盒.png"
+    },
+    {
+      "id": "cmuqjdbxuyby0",
+      "name": "AHU5213",
+      "attrs": {
+        "manufacturer": "岳CrystalFilm",
+        "filmType": "电影卷",
+        "iso": 200
+      },
+      "tags": [
+        "在产",
+        "国内分装"
+      ],
+      "notes": "",
+      "original": "images/original/cmuqjdbxuyby0.png",
+      "thumb": "images/thumb/cmuqjdbxuyby0.webp",
+      "status": "visible",
+      "createdAt": "2026-10-02T05:46:33.179Z",
+      "updatedAt": "2026-10-02T05:46:33.179Z",
+      "w": 1728,
+      "h": 2320,
+      "sourceName": "岳老板无碳AHU5213 135暗盒.png"
+    },
+    {
       "id": "cmuqixl4gtzko",
       "name": "UltraMax 400",
       "attrs": {
