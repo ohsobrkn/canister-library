@@ -46,10 +46,79 @@
       "Ilford",
       "Agfa",
       "CineStill",
-      "Foma"
+      "Foma",
+      "喏斯ROSFILM",
+      "菲林啃噬者",
+      "岳CrystalFilm",
+      "乐凯LUCKY",
+      "LFANI"
     ]
   },
   "items": [
+    {
+      "id": "cmuqixl4gtzko",
+      "name": "UltraMax 400",
+      "attrs": {
+        "manufacturer": "Kodak",
+        "filmType": "彩色负片",
+        "iso": 200
+      },
+      "tags": [
+        "在产"
+      ],
+      "notes": "",
+      "original": "images/original/cmuqixl4gtzko.png",
+      "thumb": "images/thumb/cmuqixl4gtzko.webp",
+      "status": "visible",
+      "createdAt": "2026-10-02T05:36:08.651Z",
+      "updatedAt": "2026-10-02T05:36:08.651Z",
+      "w": 2048,
+      "h": 2048,
+      "sourceName": "柯达UltraMax400 135暗盒.png"
+    },
+    {
+      "id": "cmuqixl5uwa84",
+      "name": "gold 200",
+      "attrs": {
+        "manufacturer": "Kodak",
+        "filmType": "彩色负片",
+        "iso": 200
+      },
+      "tags": [
+        "在产",
+        "120"
+      ],
+      "notes": "",
+      "original": "images/original/cmuqixl5uwa84.png",
+      "thumb": "images/thumb/cmuqixl5uwa84.webp",
+      "status": "visible",
+      "createdAt": "2026-10-02T05:36:08.666Z",
+      "updatedAt": "2026-10-02T05:36:08.666Z",
+      "w": 1024,
+      "h": 1536,
+      "sourceName": "柯达金200 120裸卷背纸.png"
+    },
+    {
+      "id": "cmuqizdfxy9iw",
+      "name": "PAN100",
+      "attrs": {
+        "manufacturer": "Foma",
+        "filmType": "黑白负片",
+        "iso": 100
+      },
+      "tags": [
+        "在产"
+      ],
+      "notes": "",
+      "original": "images/original/cmuqizdfxy9iw.png",
+      "thumb": "images/thumb/cmuqizdfxy9iw.webp",
+      "status": "visible",
+      "createdAt": "2026-10-02T05:36:08.675Z",
+      "updatedAt": "2026-10-02T05:36:08.675Z",
+      "w": 1536,
+      "h": 1024,
+      "sourceName": "福马pan100 135暗盒.png"
+    },
     {
       "id": "cmuqiswtcp9e4",
       "name": "gold 200",
@@ -66,7 +135,7 @@
       "thumb": "images/thumb/cmuqiswtcp9e4.webp",
       "status": "visible",
       "createdAt": "2026-10-02T05:27:01.182Z",
-      "updatedAt": "2026-10-02T05:27:01.182Z",
+      "updatedAt": "2026-10-02T05:31:13.864Z",
       "w": 1024,
       "h": 1536,
       "sourceName": "柯达金200 135暗盒.png"
