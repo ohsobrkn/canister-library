@@ -277,7 +277,7 @@
     },
     {
       "id": "cmuqizdfxy9iw",
-      "name": "PAN100",
+      "name": "PAN 100",
       "attrs": {
         "manufacturer": "Foma",
         "filmType": "黑白负片",
@@ -291,7 +291,7 @@
       "thumb": "images/thumb/cmuqizdfxy9iw.webp",
       "status": "visible",
       "createdAt": "2026-10-02T05:36:08.675Z",
-      "updatedAt": "2026-10-02T05:36:08.675Z",
+      "updatedAt": "2026-10-02T08:47:50.386Z",
       "w": 1536,
       "h": 1024,
       "sourceName": "福马pan100 135暗盒.png"
