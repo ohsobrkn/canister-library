@@ -58,6 +58,176 @@
   },
   "items": [
     {
+      "id": "cmuraje5vhpa2",
+      "name": "HARMAN PHOENIX II",
+      "attrs": {
+        "manufacturer": "Ilford",
+        "iso": 200
+      },
+      "tags": [
+        "在产",
+        "风格卷"
+      ],
+      "notes": "哈曼蓝凤凰二代（建议过曝一档）",
+      "original": "images/original/cmuraje5vhpa2.png",
+      "thumb": "images/thumb/cmuraje5vhpa2.webp",
+      "status": "visible",
+      "createdAt": "2026-10-02T18:31:12.074Z",
+      "updatedAt": "2026-10-02T18:31:12.075Z",
+      "w": 2048,
+      "h": 2048,
+      "sourceName": "nerv-image-5-0001.png"
+    },
+    {
+      "id": "cmurajgk8w3i0",
+      "name": "HARMAN PHOENIX",
+      "attrs": {
+        "manufacturer": "Ilford",
+        "filmType": "彩色负片",
+        "iso": 125
+      },
+      "tags": [
+        "在产",
+        "风格卷"
+      ],
+      "notes": "哈曼新版红凤凰",
+      "original": "images/original/cmurajgk8w3i0.png",
+      "thumb": "images/thumb/cmurajgk8w3i0.webp",
+      "status": "visible",
+      "createdAt": "2026-10-02T18:31:12.093Z",
+      "updatedAt": "2026-10-02T18:31:12.093Z",
+      "w": 2048,
+      "h": 2048,
+      "sourceName": "nerv-image-6-0001.png"
+    },
+    {
+      "id": "cmuraji6nnmay",
+      "name": "ProImage 100",
+      "attrs": {
+        "manufacturer": "Kodak",
+        "filmType": "彩色负片",
+        "iso": 100
+      },
+      "tags": [
+        "在产"
+      ],
+      "notes": "人像100",
+      "original": "images/original/cmuraji6nnmay.png",
+      "thumb": "images/thumb/cmuraji6nnmay.webp",
+      "status": "visible",
+      "createdAt": "2026-10-02T18:31:12.108Z",
+      "updatedAt": "2026-10-02T18:31:12.108Z",
+      "w": 2048,
+      "h": 2048,
+      "sourceName": "imgak_removebg_00505_1790933703550.png"
+    },
+    {
+      "id": "cmurajkrsk23w",
+      "name": "C400",
+      "attrs": {
+        "manufacturer": "乐凯LUCKY",
+        "filmType": "彩色负片",
+        "iso": 400
+      },
+      "tags": [
+        "在产"
+      ],
+      "notes": "",
+      "original": "images/original/cmurajkrsk23w.png",
+      "thumb": "images/thumb/cmurajkrsk23w.webp",
+      "status": "visible",
+      "createdAt": "2026-10-02T18:31:12.116Z",
+      "updatedAt": "2026-10-02T18:31:12.116Z",
+      "w": 2048,
+      "h": 2048,
+      "sourceName": "imgak_removebg_00506_1790933703874.png"
+    },
+    {
+      "id": "cmuraofhwtsz5",
+      "name": "PAN 100",
+      "attrs": {
+        "manufacturer": "Foma",
+        "filmType": "黑白负片",
+        "iso": 100
+      },
+      "tags": [
+        "在产"
+      ],
+      "notes": "",
+      "original": "images/original/cmuraofhwtsz5.png",
+      "thumb": "images/thumb/cmuraofhwtsz5.webp",
+      "status": "visible",
+      "createdAt": "2026-10-02T18:31:12.127Z",
+      "updatedAt": "2026-10-02T18:31:12.127Z",
+      "w": 2048,
+      "h": 2048,
+      "sourceName": "福马pan100 135暗盒.png"
+    },
+    {
+      "id": "cmurap20nnmu7",
+      "name": "Velvia 50",
+      "attrs": {
+        "manufacturer": "Fujifilm",
+        "filmType": "彩色反转片",
+        "iso": 50
+      },
+      "tags": [
+        "在产",
+        "120"
+      ],
+      "notes": "RVP 50 包装",
+      "original": "images/original/cmurap20nnmu7.png",
+      "thumb": "images/thumb/cmurap20nnmu7.webp",
+      "status": "visible",
+      "createdAt": "2026-10-02T18:31:12.139Z",
+      "updatedAt": "2026-10-02T18:31:12.139Z",
+      "w": 1536,
+      "h": 1024,
+      "sourceName": "ChatGPT Image 2026年9月23日 02_05_02.png"
+    },
+    {
+      "id": "cmurap9mq3joc",
+      "name": "C200",
+      "attrs": {
+        "manufacturer": "乐凯LUCKY",
+        "filmType": "彩色负片",
+        "iso": 200
+      },
+      "tags": [
+        "在产"
+      ],
+      "notes": "",
+      "original": "images/original/cmurap9mq3joc.png",
+      "thumb": "images/thumb/cmurap9mq3joc.webp",
+      "status": "visible",
+      "createdAt": "2026-10-02T18:31:12.144Z",
+      "updatedAt": "2026-10-02T18:31:12.144Z",
+      "w": 1024,
+      "h": 1536,
+      "sourceName": "乐凯C200 135暗盒.png"
+    },
+    {
+      "id": "cmurap9nhlavw",
+      "name": "SHD400",
+      "attrs": {
+        "manufacturer": "乐凯LUCKY",
+        "filmType": "黑白负片",
+        "iso": 400
+      },
+      "tags": [
+        "在产"
+      ],
+      "notes": "",
+      "original": "images/original/cmurap9nhlavw.png",
+      "thumb": "images/thumb/cmurap9nhlavw.webp",
+      "status": "visible",
+      "createdAt": "2026-10-02T18:31:12.153Z",
+      "updatedAt": "2026-10-02T18:31:12.153Z",
+      "w": 1760,
+      "h": 2368,
+      "sourceName": "乐凯SHD400 135暗盒.png"
+    },
+    {
       "id": "cmuqq91jnn7pi",
       "name": "HARMAN RED",
       "attrs": {
