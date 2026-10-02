@@ -544,6 +544,58 @@
   /* ===== 上传队列 ===== */
   var uploadDefaults = {};
 
+  /* ===== 上传队列暂存（IndexedDB：切标签页 / 刷新 / 关闭重开浏览器均可恢复） ===== */
+  var qdb = null;
+  (function () {
+    try {
+      var req = indexedDB.open("canisterAdmin", 1);
+      req.onupgradeneeded = function () { req.result.createObjectStore("queue", { keyPath: "id" }); };
+      req.onsuccess = function () { qdb = req.result; };
+      req.onerror = function () { qdb = null; };
+    } catch (e) { qdb = null; }
+  })();
+  function queueSnapshot(item) {
+    // collect 是函数不可序列化；file/thumbBlob 为 File/Blob，IndexedDB 结构化克隆原生支持
+    return { id: item.id, file: item.file, ext: item.ext, name: item.name, thumbBlob: item.thumbBlob, thumbExt: item.thumbExt, w: item.w, h: item.h, error: item.error, form: item.form || null };
+  }
+  function idbPut(item) {
+    if (!qdb) return;
+    try { qdb.transaction("queue", "readwrite").objectStore("queue").put(queueSnapshot(item)); } catch (e) { /* 暂存失败不阻塞主流程 */ }
+  }
+  function idbDelete(id) {
+    if (!qdb) return;
+    try { qdb.transaction("queue", "readwrite").objectStore("queue").delete(id); } catch (e) { /* 忽略 */ }
+  }
+  function idbClear() {
+    if (!qdb) return;
+    try { qdb.transaction("queue", "readwrite").objectStore("queue").clear(); } catch (e) { /* 忽略 */ }
+  }
+  function idbAll() {
+    return new Promise(function (res) {
+      if (!qdb) return res([]);
+      try {
+        var req = qdb.transaction("queue").objectStore("queue").getAll();
+        req.onsuccess = function () { res(req.result || []); };
+        req.onerror = function () { res([]); };
+      } catch (e) { res([]); }
+    });
+  }
+  async function restoreQueue() {
+    var saved = await idbAll();
+    if (!saved.length) return;
+    saved.forEach(function (s) {
+      queue.push({
+        file: s.file, id: s.id, ext: s.ext, name: s.name || "",
+        thumbBlob: s.thumbBlob || null, thumbExt: s.thumbExt || "webp",
+        w: s.w || 0, h: s.h || 0, error: s.error || null,
+        collect: null, form: s.form || null
+      });
+    });
+    renderQueue();
+    $("queuePanel").hidden = false;
+    toast("已恢复上次未提交的上传队列（" + saved.length + " 张），图片与已填元数据均保留。");
+  }
+
   function renderUploadDefaults() {
     var host = $("uploadDefaults");
     host.innerHTML = "";
@@ -638,6 +690,7 @@
         item.error = e.message;
       }
       queue.push(item);
+      idbPut(item);
     }
     renderQueue();
     if (queue.length) $("queuePanel").hidden = false;
@@ -681,7 +734,13 @@
 
       var form = document.createElement("div");
       form.className = "qi-form";
-      item.collect = buildMetaFields(form, { attrs: uploadDefaults.attrs || {}, tags: uploadDefaults.tags || [] }, null);
+      // 已填过的元数据优先（暂存恢复/编辑回显），否则套用「应用为默认」
+      item.collect = buildMetaFields(form, item.form || { attrs: uploadDefaults.attrs || {}, tags: uploadDefaults.tags || [] }, null);
+      // 编辑即暂存：任何字段输入都物化表单值并写入 IndexedDB，切标签页/刷新/关浏览器不丢
+      form.addEventListener("input", function () {
+        item.form = item.collect();
+        idbPut(item);
+      });
       main.appendChild(form);
 
       var removeBtn = document.createElement("button");
@@ -689,6 +748,7 @@
       removeBtn.className = "ghost";
       removeBtn.textContent = "移出队列";
       removeBtn.addEventListener("click", function () {
+        idbDelete(item.id);
         queue.splice(idx, 1);
         renderQueue();
         if (!queue.length) $("queuePanel").hidden = true;
@@ -717,6 +777,7 @@
     this.value = "";
   });
   $("clearQueueBtn").addEventListener("click", function () {
+    idbClear();
     queue = [];
     renderQueue();
     $("queuePanel").hidden = true;
@@ -773,6 +834,7 @@
       logLine("提交 " + newItems.length + " 张图片（" + (changes.length - 1) + " 个文件）…");
       var commit = await commitChanges(changes, "canister: add " + newItems.length + " item(s)");
       logLine("✓ 提交成功：" + commit.sha.slice(0, 7) + " — 等待 Pages 构建…");
+      idbClear();
       queue = [];
       renderQueue();
       $("queuePanel").hidden = true;
@@ -1174,6 +1236,7 @@
       await loadDb();
       renderUploadDefaults();   // buildMetaFields 依赖 db，必须在 loadDb 之后执行
       refreshBuildStatus();
+      restoreQueue();           // 恢复上次未提交的上传队列（依赖 db.dimensions，同样需在 loadDb 后）
       toast("连接成功，数据已加载。", "ok");
     } catch (e) {
       connected = false;

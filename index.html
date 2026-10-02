@@ -83,7 +83,19 @@
   function dimValues(dim) {
     if (dim.type === "dict") return (db.dicts && db.dicts[dim.dict]) || [];
     if (dim.type === "enum") return dim.values || [];
-    if (dim.type === "number") return dim.tiers || [];
+    if (dim.type === "number") {
+      // ISO 档位从已录入数据动态收集：去重 + 数值升序，无需手动维护固定列表
+      var seen = {};
+      var vals = [];
+      db.items.forEach(function (it) {
+        var v = it.attrs && it.attrs[dim.key];
+        if (v !== undefined && v !== null && v !== "" && !seen[v]) {
+          seen[v] = Number(v);
+          vals.push(String(v));
+        }
+      });
+      return vals.sort(function (a, b) { return seen[a] - seen[b]; });
+    }
     if (dim.type === "tags") {
       var set = {};
       db.items.forEach(function (it) {
@@ -336,7 +348,8 @@
     applyFilters();
   });
 
-  fetch("data/canisters.json").then(function (r) {
+  // no-store + 时间戳穿透缓存：数据更新并重新部署后，刷新页面即可看到最新内容
+  fetch("data/canisters.json?v=" + Date.now(), { cache: "no-store" }).then(function (r) {
     if (!r.ok) throw new Error("HTTP " + r.status);
     return r.json();
   }).then(function (json) {
