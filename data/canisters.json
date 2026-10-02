@@ -237,7 +237,7 @@
       "attrs": {
         "manufacturer": "Kodak",
         "filmType": "彩色负片",
-        "iso": 200
+        "iso": 400
       },
       "tags": [
         "在产"
@@ -247,7 +247,7 @@
       "thumb": "images/thumb/cmuqixl4gtzko.webp",
       "status": "visible",
       "createdAt": "2026-10-02T05:36:08.651Z",
-      "updatedAt": "2026-10-02T05:36:08.651Z",
+      "updatedAt": "2026-10-02T05:53:48.770Z",
       "w": 2048,
       "h": 2048,
       "sourceName": "柯达UltraMax400 135暗盒.png"
