@@ -6,6 +6,7 @@
   <meta name="description" content="暗盒图片库 — 胶片暗盒参考图集，按厂商、胶片类型、ISO 筛选浏览。海带索引图 FILM 附属项目。" />
   <meta name="author" content="ohsobrkn" />
   <title>暗盒图片库 · 海带索引图 FILM</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23171310'/%3E%3Crect x='6' y='6' width='20' height='20' rx='2' fill='%23100d0a'/%3E%3Ccircle cx='16' cy='14' r='5' fill='%23e0a458'/%3E%3Crect x='8' y='22' width='16' height='1.6' fill='%23e0a458' opacity='.55'/%3E%3C/svg%3E" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -23,7 +24,12 @@
 
   <div class="lib-toolbar">
     <span class="lib-count" id="count"></span>
-    <input type="text" class="search-input" id="search" placeholder="搜索型号 / 厂商 / 备注…" />
+    <input type="text" class="search-input" id="search" placeholder="搜索型号 / 厂商 / 备注…（空格分隔多个关键词）" />
+    <select id="sortKey" class="sort-select" aria-label="排序方式">
+      <option value="name">按名称</option>
+      <option value="manufacturer">按厂商</option>
+    </select>
+    <button id="sortDir" class="ghost" type="button" aria-label="切换排序方向">↑ 升序</button>
     <button id="resetBtn" class="ghost" type="button">重置筛选</button>
   </div>
 
@@ -120,16 +126,42 @@
       }
     }
     if (query) {
+      // 模糊搜索（与主站选择器一致）：空格分词，每个关键词都命中才算匹配
       var hay = (item.name || "") + " " + (item.notes || "");
       for (var k in (item.attrs || {})) hay += " " + item.attrs[k];
       (item.tags || []).forEach(function (t) { hay += " " + t; });
-      if (hay.toLowerCase().indexOf(query.toLowerCase()) < 0) return false;
+      hay = hay.toLowerCase();
+      var tokens = query.toLowerCase().split(/\s+/).filter(Boolean);
+      for (var ti = 0; ti < tokens.length; ti += 1) {
+        if (hay.indexOf(tokens[ti]) < 0) return false;
+      }
     }
     return true;
   }
 
+  /* ===== 排序（按名称 / 按厂商 × 升序 / 降序） ===== */
+  var sortKey = "name";
+  var sortDir = "asc";   // asc | desc
+  var sortKeyEl = document.getElementById("sortKey");
+  var sortDirBtn = document.getElementById("sortDir");
+
+  function sortItems(arr) {
+    return arr.slice().sort(function (a, b) {
+      var va, vb;
+      if (sortKey === "manufacturer") {
+        va = attrValue(a, "manufacturer") != null ? String(attrValue(a, "manufacturer")) : "";
+        vb = attrValue(b, "manufacturer") != null ? String(attrValue(b, "manufacturer")) : "";
+      } else {
+        va = (a.name || a.id || "").toString();
+        vb = (b.name || b.id || "").toString();
+      }
+      var cmp = va.localeCompare(vb, "zh-Hans-CN");
+      return sortDir === "asc" ? cmp : -cmp;
+    });
+  }
+
   function applyFilters() {
-    visibleItems = db.items.filter(function (it) { return itemVisible(it) && matchFilter(it); });
+    visibleItems = sortItems(db.items.filter(function (it) { return itemVisible(it) && matchFilter(it); }));
     renderGrid();
     syncUrl();
     countEl.innerHTML = "共 <b>" + db.items.filter(itemVisible).length + "</b> 张 · 当前显示 <b>" + visibleItems.length + "</b> 张";
@@ -141,6 +173,8 @@
       if (filters[key] && filters[key].size) params.set(key, Array.from(filters[key]).join(","));
     }
     if (query) params.set("q", query);
+    if (sortKey !== "name") params.set("sort", sortKey);
+    if (sortDir !== "asc") params.set("dir", sortDir);
     var qs = params.toString();
     window.history.replaceState(null, "", qs ? "?" + qs : window.location.pathname);
   }
@@ -156,6 +190,11 @@
     filters.tags = filters.tags || new Set();
     query = params.get("q") || "";
     searchEl.value = query;
+    var sk = params.get("sort");
+    sortKey = (sk === "manufacturer" || sk === "name") ? sk : "name";
+    sortDir = params.get("dir") === "desc" ? "desc" : "asc";
+    sortKeyEl.value = sortKey;
+    sortDirBtn.textContent = sortDir === "asc" ? "↑ 升序" : "↓ 降序";
   }
 
   function buildFilterUi() {
@@ -345,6 +384,17 @@
     window.history.replaceState(null, "", window.location.pathname);
     readUrl();
     buildFilterUi();
+    applyFilters();
+  });
+
+  sortKeyEl.addEventListener("change", function () {
+    sortKey = this.value;
+    applyFilters();
+  });
+
+  sortDirBtn.addEventListener("click", function () {
+    sortDir = sortDir === "asc" ? "desc" : "asc";
+    this.textContent = sortDir === "asc" ? "↑ 升序" : "↓ 降序";
     applyFilters();
   });
 
