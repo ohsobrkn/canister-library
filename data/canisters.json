@@ -58,6 +58,133 @@
   },
   "items": [
     {
+      "id": "cmuydsz05u11q",
+      "name": "FUJICOLOR 100",
+      "attrs": {
+        "manufacturer": "Fujifilm",
+        "filmType": "彩色负片",
+        "iso": 100
+      },
+      "tags": [
+        "停产"
+      ],
+      "notes": "",
+      "original": "images/original/cmuydsz05u11q.png",
+      "thumb": "images/thumb/cmuydsz05u11q.webp",
+      "status": "visible",
+      "createdAt": "2026-10-07T17:37:07.545Z",
+      "updatedAt": "2026-10-07T17:37:07.545Z",
+      "w": 2048,
+      "h": 2048,
+      "sourceName": "nerv-image-7-0001 (1).png"
+    },
+    {
+      "id": "cmuydsz1hgk2u",
+      "name": "Kodacolor 200",
+      "attrs": {
+        "manufacturer": "Kodak",
+        "filmType": "彩色负片",
+        "iso": 200
+      },
+      "tags": [
+        "在产"
+      ],
+      "notes": "柯达CP200",
+      "original": "images/original/cmuydsz1hgk2u.png",
+      "thumb": "images/thumb/cmuydsz1hgk2u.webp",
+      "status": "visible",
+      "createdAt": "2026-10-07T17:37:07.566Z",
+      "updatedAt": "2026-10-07T17:37:07.566Z",
+      "w": 2048,
+      "h": 2048,
+      "sourceName": "nerv-image-4-0001.png"
+    },
+    {
+      "id": "cmuydsz34c90a",
+      "name": "FUJICOLOR 200",
+      "attrs": {
+        "manufacturer": "Fujifilm",
+        "filmType": "彩色负片",
+        "iso": 200
+      },
+      "tags": [
+        "停产"
+      ],
+      "notes": "日版富士C200",
+      "original": "images/original/cmuydsz34c90a.png",
+      "thumb": "images/thumb/cmuydsz34c90a.webp",
+      "status": "visible",
+      "createdAt": "2026-10-07T17:37:07.580Z",
+      "updatedAt": "2026-10-07T17:37:07.580Z",
+      "w": 2048,
+      "h": 2048,
+      "sourceName": "nerv-image-1-0001.png"
+    },
+    {
+      "id": "cmuydsz4fqfm6",
+      "name": "FunSaver Power Flash",
+      "attrs": {
+        "manufacturer": "Kodak",
+        "filmType": "彩色负片",
+        "iso": 800
+      },
+      "tags": [
+        "一次性相机",
+        "在产"
+      ],
+      "notes": "",
+      "original": "images/original/cmuydsz4fqfm6.png",
+      "thumb": "images/thumb/cmuydsz4fqfm6.webp",
+      "status": "visible",
+      "createdAt": "2026-10-07T17:37:07.593Z",
+      "updatedAt": "2026-10-07T17:37:07.593Z",
+      "w": 1774,
+      "h": 887,
+      "sourceName": "彩色柯达一次性相机正面特写.png"
+    },
+    {
+      "id": "cmuydsz52bmy8",
+      "name": "QuickSnap",
+      "attrs": {
+        "manufacturer": "Kodak",
+        "filmType": "彩色负片",
+        "iso": 400
+      },
+      "tags": [
+        "在产"
+      ],
+      "notes": "",
+      "original": "images/original/cmuydsz52bmy8.png",
+      "thumb": "images/thumb/cmuydsz52bmy8.webp",
+      "status": "visible",
+      "createdAt": "2026-10-07T17:37:07.604Z",
+      "updatedAt": "2026-10-07T17:37:07.604Z",
+      "w": 1774,
+      "h": 887,
+      "sourceName": "ChatGPT Image 2026年10月8日 00_51_33.png"
+    },
+    {
+      "id": "cmuye09alewsi",
+      "name": "EKTACHROME E100",
+      "attrs": {
+        "manufacturer": "Kodak",
+        "filmType": "彩色反转片",
+        "iso": 100
+      },
+      "tags": [
+        "在产"
+      ],
+      "notes": "",
+      "original": "images/original/cmuye09alewsi.png",
+      "thumb": "images/thumb/cmuye09alewsi.webp",
+      "status": "visible",
+      "createdAt": "2026-10-07T17:37:07.614Z",
+      "updatedAt": "2026-10-07T17:37:07.614Z",
+      "w": 1024,
+      "h": 1024,
+      "sourceName": "nerv-image-6-0001.png"
+    },
+    {
       "id": "cmuraje5vhpa2",
       "name": "HARMAN PHOENIX II",
       "attrs": {
