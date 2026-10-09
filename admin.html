@@ -386,6 +386,45 @@
     return (db.dicts && db.dicts[dim.dict]) || [];
   }
 
+  /* ===== 统一排序规则（与访客页一致：符号 → 数字 → 字母 → 中文拼音） ===== */
+  function charClass(ch) {
+    var code = ch.charCodeAt(0);
+    if (code >= 48 && code <= 57) return 2;
+    if ((code >= 65 && code <= 90) || (code >= 97 && code <= 122)) return 3;
+    if (code >= 0x2e80) return 4;
+    return 1;
+  }
+  function chineseRun(s, i) {
+    var j = i;
+    while (j < s.length && s.charCodeAt(j) >= 0x2e80) j += 1;
+    return s.slice(i, j);
+  }
+  function unifiedCompare(a, b) {
+    var sa = String(a == null ? "" : a);
+    var sb = String(b == null ? "" : b);
+    var i = 0, j = 0;
+    while (i < sa.length && j < sb.length) {
+      var ca = sa.charAt(i), cb = sb.charAt(j);
+      var ka = charClass(ca), kb = charClass(cb);
+      if (ka !== kb) return ka - kb;
+      if (ka === 4) {
+        var xa = chineseRun(sa, i), xb = chineseRun(sb, j);
+        var ccmp = xa.localeCompare(xb, "zh-Hans-CN");
+        if (ccmp !== 0) return ccmp;
+        i += xa.length; j += xb.length;
+      } else {
+        if (ka === 3) {
+          var la = ca.toLowerCase(), lb = cb.toLowerCase();
+          if (la !== lb) return la < lb ? -1 : 1;
+        }
+        if (ca !== cb) return ca < cb ? -1 : 1;
+        i += 1; j += 1;
+      }
+    }
+    if (i >= sa.length && j >= sb.length) return 0;
+    return i >= sa.length ? -1 : 1;
+  }
+
   function genId() {
     return "c" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
   }
@@ -447,7 +486,7 @@
         var listId = "dl-" + dim.key + "-" + genId();
         var dl = document.createElement("datalist");
         dl.id = listId;
-        dictOf(dim).forEach(function (v) {
+        dictOf(dim).slice().sort(unifiedCompare).forEach(function (v) {
           var o = document.createElement("option");
           o.value = v;
           dl.appendChild(o);
@@ -1069,6 +1108,39 @@
   });
 
   /* ===== 字典与维度 ===== */
+  /* ===== 关联数据一致性辅助 ===== */
+  // 收集引用某个字典的所有维度 key
+  function dimKeysUsingDict(dictKey) {
+    return db.dimensions.filter(function (d) { return d.type === "dict" && d.dict === dictKey; }).map(function (d) { return d.key; });
+  }
+  // 统计条目 attrs 中（指定维度 keys 下）值 === oldVal 的条目数
+  function countRefs(keys, oldVal) {
+    var n = 0;
+    db.items.forEach(function (it) {
+      if (!it.attrs) return;
+      for (var i = 0; i < keys.length; i += 1) if (String(it.attrs[keys[i]]) === String(oldVal)) { n += 1; break; }
+    });
+    return n;
+  }
+  // 条目 attrs 值改名（指定维度 keys 下 oldVal → newVal）
+  function renameRefValues(keys, oldVal, newVal) {
+    db.items.forEach(function (it) {
+      if (!it.attrs) return;
+      keys.forEach(function (k) {
+        if (String(it.attrs[k]) === String(oldVal)) it.attrs[k] = newVal;
+      });
+    });
+  }
+  // 清除条目 attrs 中（指定维度 keys 下）等于 oldVal 的字段
+  function clearRefValues(keys, oldVal) {
+    db.items.forEach(function (it) {
+      if (!it.attrs) return;
+      keys.forEach(function (k) {
+        if (String(it.attrs[k]) === String(oldVal)) delete it.attrs[k];
+      });
+    });
+  }
+
   function renderSchema() {
     var host = $("dictEditors");
     host.innerHTML = "";
@@ -1086,13 +1158,57 @@
         var item = document.createElement("span");
         item.className = "dict-item";
         item.appendChild(document.createTextNode(val));
+
+        var rename = document.createElement("button");
+        rename.type = "button";
+        rename.className = "ghost";
+        rename.textContent = "✎";
+        rename.title = "重命名（条目中引用同步更新）";
+        rename.addEventListener("click", function () {
+          item.innerHTML = "";
+          var inR = document.createElement("input");
+          inR.type = "text";
+          inR.value = val;
+          var ok = document.createElement("button");
+          ok.type = "button";
+          ok.className = "primary";
+          ok.textContent = "确定";
+          var cancel = document.createElement("button");
+          cancel.type = "button";
+          cancel.className = "ghost";
+          cancel.textContent = "取消";
+          item.appendChild(inR); item.appendChild(ok); item.appendChild(cancel);
+          inR.focus();
+          var done = function () {
+            var nv = inR.value.trim();
+            if (!nv || nv === val) { renderSchema(); return; }
+            if (db.dicts[dictKey].indexOf(nv) >= 0) { toast("该值已存在。"); return; }
+            var keys = dimKeysUsingDict(dictKey);
+            var refs = countRefs(keys, val);
+            if (refs > 0 && !window.confirm("有 " + refs + " 个条目正在使用「" + val + "」，重命名后将同步更新这些条目。继续？")) return;
+            db.dicts[dictKey][idx] = nv;
+            renameRefValues(keys, val, nv);
+            markDirty(refs > 0 ? "重命名字典值并同步 " + refs + " 个条目" : "");
+            renderSchema();
+          };
+          ok.addEventListener("click", done);
+          inR.addEventListener("keydown", function (e) { if (e.key === "Enter") done(); });
+          cancel.addEventListener("click", renderSchema);
+        });
+        item.appendChild(rename);
+
         var rm = document.createElement("button");
         rm.type = "button";
         rm.className = "ghost";
         rm.textContent = "×";
+        rm.title = "删除（引用该值的条目字段将一并清除）";
         rm.addEventListener("click", function () {
+          var keys = dimKeysUsingDict(dictKey);
+          var refs = countRefs(keys, val);
+          if (refs > 0 && !window.confirm("「" + val + "」被 " + refs + " 个条目使用。删除后将同时清除这些条目中的该字段值，继续？")) return;
           db.dicts[dictKey].splice(idx, 1);
-          markDirty();
+          if (refs > 0) clearRefValues(keys, val);
+          markDirty(refs > 0 ? "删除字典值并清除 " + refs + " 个条目引用" : "");
           renderSchema();
         });
         item.appendChild(rm);
@@ -1143,14 +1259,115 @@
       var actions = document.createElement("div");
       actions.className = "row-actions";
       actions.style.marginTop = "6px";
+
+      var editBtn = document.createElement("button");
+      editBtn.type = "button";
+      editBtn.className = "ghost";
+      editBtn.textContent = "编辑";
+      editBtn.addEventListener("click", function () {
+        // 展开内联编辑：显示名 / 维度标识 / 枚举值（dict 值在上方面板维护，number 档位已由筛选动态收集取代）
+        var old = { label: dim.label, key: dim.key, values: (dim.values || []).slice() };
+        var form = document.createElement("div");
+        form.className = "edit-row";
+        form.style.display = "grid";
+        form.style.gap = "6px";
+        function mkField(labelText, value) {
+          var wrap = document.createElement("div");
+          var lb = document.createElement("label");
+          lb.textContent = labelText;
+          lb.style.cssText = "display:block; font-size:12px; margin-bottom:2px;";
+          wrap.appendChild(lb);
+          var inp = document.createElement("input");
+          inp.type = "text";
+          inp.value = value;
+          inp.style.width = "260px";
+          wrap.appendChild(inp);
+          form.appendChild(wrap);
+          return inp;
+        }
+        var inLabel = mkField("显示名", dim.label);
+        var inKey = mkField("维度标识（修改将同步迁移条目数据）", dim.key);
+        var inVals = null;
+        if (dim.type === "enum") inVals = mkField("枚举值（逗号分隔；移除的值将从条目中清除）", (dim.values || []).join(", "));
+        if (dim.type === "number") {
+          var note = document.createElement("div");
+          note.style.cssText = "font-size:12px; color:var(--faint);";
+          note.textContent = "数值维度的筛选档位由条目数据自动收集，无需维护。";
+          form.appendChild(note);
+        }
+        if (dim.type === "dict") {
+          var note = document.createElement("div");
+          note.style.cssText = "font-size:12px; color:var(--faint);";
+          note.textContent = "字典值请在上方「" + dim.dict + "」面板中增删改。";
+          form.appendChild(note);
+        }
+        var btnRow = document.createElement("div");
+        var save = document.createElement("button");
+        save.type = "button";
+        save.className = "primary";
+        save.textContent = "保存";
+        var cancel = document.createElement("button");
+        cancel.type = "button";
+        cancel.className = "ghost";
+        cancel.textContent = "取消";
+        cancel.addEventListener("click", function () { form.remove(); editBtn.hidden = false; });
+        btnRow.appendChild(save); btnRow.appendChild(cancel);
+        form.appendChild(btnRow);
+        main.appendChild(form);
+        editBtn.hidden = true;
+
+        save.addEventListener("click", function () {
+          var nl = inLabel.value.trim();
+          var nk = inKey.value.trim();
+          if (!nl || !nk) { toast("显示名与维度标识不能为空。"); return; }
+          if (!/^[a-z][a-z0-9]*$/i.test(nk)) { toast("维度标识需为英文字母开头的字母数字。"); return; }
+          if (nk !== old.key && dimOf(nk)) { toast("维度标识 " + nk + " 已被占用。"); return; }
+          // 枚举值一致性：移除的旧值从条目中清除（先确认）
+          if (dim.type === "enum") {
+            var newVals = inVals.value.split(/[,，]/).map(function (s) { return s.trim(); }).filter(Boolean);
+            var uniq = [];
+            newVals.forEach(function (v) { if (uniq.indexOf(v) < 0) uniq.push(v); });
+            var removed = old.values.filter(function (v) { return uniq.indexOf(v) < 0; });
+            var refTotal = 0;
+            removed.forEach(function (v) { refTotal += countRefs([dim.key], v); });
+            if (refTotal > 0 && !window.confirm("移除的枚举值正被 " + refTotal + " 个条目使用，保存后将同时清除这些条目中的该字段值，继续？")) return;
+            dim.values = uniq;
+          }
+          dim.label = nl;
+          if (nk !== old.key) {
+            db.items.forEach(function (it) {
+              if (it.attrs && old.key in it.attrs) { it.attrs[nk] = it.attrs[old.key]; delete it.attrs[old.key]; }
+            });
+            dim.key = nk;
+            markDirty("维度标识 " + old.key + " → " + nk + "，条目数据已迁移");
+          } else {
+            markDirty();
+          }
+          renderSchema();
+          toast("维度已更新（保存后前后台生效）。");
+        });
+      });
+      actions.appendChild(editBtn);
+
       var rm = document.createElement("button");
       rm.type = "button";
       rm.className = "danger";
       rm.textContent = "移除维度";
       rm.addEventListener("click", function () {
-        if (!window.confirm("移除维度「" + dim.label + "」？条目中已填写的数据保留，但界面不再显示。")) return;
+        if (!window.confirm("移除维度「" + dim.label + "」？")) return;
+        var refN = 0;
+        db.items.forEach(function (it) { if (it.attrs && it.attrs[dim.key] != null && it.attrs[dim.key] !== "") refN += 1; });
+        var wipe = false;
+        if (refN > 0) {
+          wipe = window.confirm("有 " + refN + " 个条目填写了该维度。是否同时清除条目中的该字段数据？（确定=清除，取消=保留数据，仅从界面移除）");
+        }
         db.dimensions.splice(idx, 1);
-        markDirty();
+        if (wipe) {
+          db.items.forEach(function (it) { if (it.attrs) delete it.attrs[dim.key]; });
+          markDirty("移除维度 " + dim.key + " 并清除 " + refN + " 个条目字段");
+        } else {
+          markDirty("移除维度 " + dim.key + "（条目数据保留）");
+        }
         renderSchema();
       });
       actions.appendChild(rm);

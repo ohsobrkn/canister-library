@@ -87,7 +87,7 @@
   }
 
   function dimValues(dim) {
-    if (dim.type === "dict") return (db.dicts && db.dicts[dim.dict]) || [];
+    if (dim.type === "dict") return ((db.dicts && db.dicts[dim.dict]) || []).slice().sort(unifiedCompare);
     if (dim.type === "enum") return dim.values || [];
     if (dim.type === "number") {
       // ISO 档位从已录入数据动态收集：去重 + 数值升序，无需手动维护固定列表
@@ -145,6 +145,47 @@
   var sortKeyEl = document.getElementById("sortKey");
   var sortDirBtn = document.getElementById("sortDir");
 
+  /* ===== 统一排序规则（特殊符号 → 数字 → 英文字母 → 中文拼音） =====
+     分类序：1 符号（!、#、@ 等非字母数字非中文）→ 2 数字（0-9）→ 3 字母（A-Z，
+     不区分大小写比较，同字母时大写在前）→ 4 中文（连续中文段整段按拼音 localeCompare zh） */
+  function charClass(ch) {
+    var code = ch.charCodeAt(0);
+    if (code >= 48 && code <= 57) return 2;
+    if ((code >= 65 && code <= 90) || (code >= 97 && code <= 122)) return 3;
+    if (code >= 0x2e80) return 4;
+    return 1;
+  }
+  function chineseRun(s, i) {
+    var j = i;
+    while (j < s.length && s.charCodeAt(j) >= 0x2e80) j += 1;
+    return s.slice(i, j);
+  }
+  function unifiedCompare(a, b) {
+    var sa = String(a == null ? "" : a);
+    var sb = String(b == null ? "" : b);
+    var i = 0, j = 0;
+    while (i < sa.length && j < sb.length) {
+      var ca = sa.charAt(i), cb = sb.charAt(j);
+      var ka = charClass(ca), kb = charClass(cb);
+      if (ka !== kb) return ka - kb;
+      if (ka === 4) {
+        var xa = chineseRun(sa, i), xb = chineseRun(sb, j);
+        var ccmp = xa.localeCompare(xb, "zh-Hans-CN");
+        if (ccmp !== 0) return ccmp;
+        i += xa.length; j += xb.length;
+      } else {
+        if (ka === 3) {
+          var la = ca.toLowerCase(), lb = cb.toLowerCase();
+          if (la !== lb) return la < lb ? -1 : 1;
+        }
+        if (ca !== cb) return ca < cb ? -1 : 1;
+        i += 1; j += 1;
+      }
+    }
+    if (i >= sa.length && j >= sb.length) return 0;
+    return i >= sa.length ? -1 : 1;
+  }
+
   function sortItems(arr) {
     return arr.slice().sort(function (a, b) {
       var va, vb;
@@ -155,7 +196,7 @@
         va = (a.name || a.id || "").toString();
         vb = (b.name || b.id || "").toString();
       }
-      var cmp = va.localeCompare(vb, "zh-Hans-CN");
+      var cmp = unifiedCompare(va, vb);
       return sortDir === "asc" ? cmp : -cmp;
     });
   }
