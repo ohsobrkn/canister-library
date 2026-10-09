@@ -58,6 +58,370 @@
   },
   "items": [
     {
+      "id": "cmv17jkd2qab9",
+      "name": "PAN 100",
+      "attrs": {
+        "manufacturer": "Foma",
+        "filmType": "黑白负片",
+        "iso": 100
+      },
+      "tags": [
+        "在产",
+        "135"
+      ],
+      "notes": "",
+      "original": "images/original/cmv17jkd2qab9.png",
+      "thumb": "images/thumb/cmv17jkd2qab9.webp",
+      "status": "visible",
+      "createdAt": "2026-10-09T17:22:25.266Z",
+      "updatedAt": "2026-10-09T17:22:25.266Z",
+      "w": 2048,
+      "h": 2048,
+      "sourceName": "nerv-image-1-0001 (1).png"
+    },
+    {
+      "id": "cmv17joxesdbt",
+      "name": "PAN 200",
+      "attrs": {
+        "manufacturer": "Foma",
+        "filmType": "黑白负片",
+        "iso": 200
+      },
+      "tags": [
+        "在产",
+        "135"
+      ],
+      "notes": "",
+      "original": "images/original/cmv17joxesdbt.png",
+      "thumb": "images/thumb/cmv17joxesdbt.webp",
+      "status": "visible",
+      "createdAt": "2026-10-09T17:22:25.284Z",
+      "updatedAt": "2026-10-09T17:22:25.284Z",
+      "w": 2048,
+      "h": 2048,
+      "sourceName": "nerv-image-2-0001.png"
+    },
+    {
+      "id": "cmv17jsgtxccr",
+      "name": "PAN 400",
+      "attrs": {
+        "manufacturer": "Foma",
+        "filmType": "黑白负片",
+        "iso": 400
+      },
+      "tags": [
+        "在产",
+        "135"
+      ],
+      "notes": "",
+      "original": "images/original/cmv17jsgtxccr.png",
+      "thumb": "images/thumb/cmv17jsgtxccr.webp",
+      "status": "visible",
+      "createdAt": "2026-10-09T17:22:25.299Z",
+      "updatedAt": "2026-10-09T17:22:25.299Z",
+      "w": 2048,
+      "h": 2048,
+      "sourceName": "nerv-image-3-0001.png"
+    },
+    {
+      "id": "cmv17lg1hd9ib",
+      "name": "AHU5219",
+      "attrs": {
+        "manufacturer": "岳CrystalFilm",
+        "filmType": "彩色负片",
+        "iso": 500
+      },
+      "tags": [
+        "在产",
+        "135",
+        "电影卷",
+        "国内分装"
+      ],
+      "notes": "500T - C-41冲洗通用可按640度，光线充足时400，ECN-2冲洗通用可按400度，光线不足时500度",
+      "original": "images/original/cmv17lg1hd9ib.png",
+      "thumb": "images/thumb/cmv17lg1hd9ib.webp",
+      "status": "visible",
+      "createdAt": "2026-10-09T17:22:25.315Z",
+      "updatedAt": "2026-10-09T17:22:25.315Z",
+      "w": 1082,
+      "h": 1453,
+      "sourceName": "透明背景上的 AHU 5219 胶卷罐-Photoroom.png"
+    },
+    {
+      "id": "cmv17o48z1fcl",
+      "name": "CineStill 800T",
+      "attrs": {
+        "manufacturer": "CineStill",
+        "filmType": "彩色负片",
+        "iso": 800
+      },
+      "tags": [
+        "在产",
+        "135",
+        "国外分装",
+        "电影卷"
+      ],
+      "notes": "800T",
+      "original": "images/original/cmv17o48z1fcl.png",
+      "thumb": "images/thumb/cmv17o48z1fcl.webp",
+      "status": "visible",
+      "createdAt": "2026-10-09T17:22:25.323Z",
+      "updatedAt": "2026-10-09T17:22:25.323Z",
+      "w": 2048,
+      "h": 2048,
+      "sourceName": "nerv-image-1-0001 (2).png"
+    },
+    {
+      "id": "cmv17o4ab0zzd",
+      "name": "LomoChrome Turquoise XR 100 - 400",
+      "attrs": {
+        "manufacturer": "Lomography",
+        "filmType": "彩色负片",
+        "iso": 100
+      },
+      "tags": [
+        "在产",
+        "135",
+        "特效卷"
+      ],
+      "notes": "ISO 100-400 藍調特效菲林－2021新配方",
+      "original": "images/original/cmv17o4ab0zzd.png",
+      "thumb": "images/thumb/cmv17o4ab0zzd.webp",
+      "status": "visible",
+      "createdAt": "2026-10-09T17:22:25.337Z",
+      "updatedAt": "2026-10-09T17:22:25.337Z",
+      "w": 2048,
+      "h": 2048,
+      "sourceName": "nerv-image-8-0001.png"
+    },
+    {
+      "id": "cmv17o4bnurzf",
+      "name": "PAN 400",
+      "attrs": {
+        "manufacturer": "Ilford",
+        "filmType": "黑白负片",
+        "iso": 400
+      },
+      "tags": [
+        "在产",
+        "135"
+      ],
+      "notes": "",
+      "original": "images/original/cmv17o4bnurzf.png",
+      "thumb": "images/thumb/cmv17o4bnurzf.webp",
+      "status": "visible",
+      "createdAt": "2026-10-09T17:22:25.351Z",
+      "updatedAt": "2026-10-09T17:22:25.351Z",
+      "w": 2048,
+      "h": 2048,
+      "sourceName": "nerv-image-5-0001.png"
+    },
+    {
+      "id": "cmv17o4cyl5ib",
+      "name": "PAN 100",
+      "attrs": {
+        "manufacturer": "Ilford",
+        "filmType": "黑白负片",
+        "iso": 100
+      },
+      "tags": [
+        "在产",
+        "135"
+      ],
+      "notes": "",
+      "original": "images/original/cmv17o4cyl5ib.png",
+      "thumb": "images/thumb/cmv17o4cyl5ib.webp",
+      "status": "visible",
+      "createdAt": "2026-10-09T17:22:25.363Z",
+      "updatedAt": "2026-10-09T17:22:25.363Z",
+      "w": 2048,
+      "h": 2048,
+      "sourceName": "nerv-image-4-0001 (1).png"
+    },
+    {
+      "id": "cmv17uonbgmyx",
+      "name": "Lomography 100",
+      "attrs": {
+        "manufacturer": "Lomography",
+        "filmType": "彩色负片",
+        "iso": 100
+      },
+      "tags": [
+        "在产",
+        "135"
+      ],
+      "notes": "",
+      "original": "images/original/cmv17uonbgmyx.png",
+      "thumb": "images/thumb/cmv17uonbgmyx.webp",
+      "status": "visible",
+      "createdAt": "2026-10-09T17:22:25.376Z",
+      "updatedAt": "2026-10-09T17:22:25.376Z",
+      "w": 2048,
+      "h": 2048,
+      "sourceName": "nerv-image-3-0001 (1).png"
+    },
+    {
+      "id": "cmv17uooi6rhu",
+      "name": "LomoChrome Metropolis XR 100 - 400",
+      "attrs": {
+        "manufacturer": "Lomography",
+        "filmType": "彩色负片",
+        "iso": 100
+      },
+      "tags": [
+        "在产",
+        "135",
+        "特效卷"
+      ],
+      "notes": "乐魔大都会 - ISO 100 - 400 冷色調負片－2021 新配方",
+      "original": "images/original/cmv17uooi6rhu.png",
+      "thumb": "images/thumb/cmv17uooi6rhu.webp",
+      "status": "visible",
+      "createdAt": "2026-10-09T17:22:25.387Z",
+      "updatedAt": "2026-10-09T17:22:25.387Z",
+      "w": 2048,
+      "h": 2048,
+      "sourceName": "nerv-image-2-0001 (1).png"
+    },
+    {
+      "id": "cmv18888dm9hx",
+      "name": "5222",
+      "attrs": {
+        "manufacturer": "岳CrystalFilm",
+        "filmType": "黑白负片",
+        "iso": 250
+      },
+      "tags": [
+        "在产",
+        "135",
+        "电影卷",
+        "国内分装"
+      ],
+      "notes": "电影黑白负片",
+      "original": "images/original/cmv18888dm9hx.png",
+      "thumb": "images/thumb/cmv18888dm9hx.webp",
+      "status": "visible",
+      "createdAt": "2026-10-09T17:22:25.399Z",
+      "updatedAt": "2026-10-09T17:22:25.399Z",
+      "w": 2164,
+      "h": 2906,
+      "sourceName": "AHU5222透明背景高清暗盒.png"
+    },
+    {
+      "id": "cmv188cqow42u",
+      "name": "CineStill 400D",
+      "attrs": {
+        "manufacturer": "CineStill",
+        "filmType": "彩色负片",
+        "iso": 400
+      },
+      "tags": [
+        "在产",
+        "国外分装",
+        "电影卷",
+        "135"
+      ],
+      "notes": "",
+      "original": "images/original/cmv188cqow42u.png",
+      "thumb": "images/thumb/cmv188cqow42u.webp",
+      "status": "visible",
+      "createdAt": "2026-10-09T17:22:25.413Z",
+      "updatedAt": "2026-10-09T17:22:25.413Z",
+      "w": 2048,
+      "h": 2048,
+      "sourceName": "nerv-image-1-0001-Photoroom.png"
+    },
+    {
+      "id": "cmv188dviri9y",
+      "name": "CineStill 50D",
+      "attrs": {
+        "manufacturer": "CineStill",
+        "filmType": "彩色负片",
+        "iso": 50
+      },
+      "tags": [
+        "在产",
+        "国外分装",
+        "电影卷",
+        "135"
+      ],
+      "notes": "",
+      "original": "images/original/cmv188dviri9y.png",
+      "thumb": "images/thumb/cmv188dviri9y.webp",
+      "status": "visible",
+      "createdAt": "2026-10-09T17:22:25.426Z",
+      "updatedAt": "2026-10-09T17:22:25.426Z",
+      "w": 2048,
+      "h": 2048,
+      "sourceName": "nerv-image-5-0001-Photoroom.png"
+    },
+    {
+      "id": "cmv188vuwt4nz",
+      "name": "LomoChrome Color ’92 400",
+      "attrs": {
+        "manufacturer": "Lomography",
+        "filmType": "彩色负片",
+        "iso": 400
+      },
+      "tags": [
+        "在产",
+        "135"
+      ],
+      "notes": "擁有充滿活力的紅色調和黃色調、迷人的藍色調和精緻柔和的底色",
+      "original": "images/original/cmv188vuwt4nz.png",
+      "thumb": "images/thumb/cmv188vuwt4nz.webp",
+      "status": "visible",
+      "createdAt": "2026-10-09T17:22:25.445Z",
+      "updatedAt": "2026-10-09T17:22:25.445Z",
+      "w": 2048,
+      "h": 2048,
+      "sourceName": "nerv-image-4-0001 (2).png"
+    },
+    {
+      "id": "cmv188vw8fax4",
+      "name": "LomoChrome Color ’92 Sun-kissed 400",
+      "attrs": {
+        "manufacturer": "Lomography",
+        "filmType": "彩色负片",
+        "iso": 400
+      },
+      "tags": [
+        "在产",
+        "135"
+      ],
+      "notes": "暖调人像",
+      "original": "images/original/cmv188vw8fax4.png",
+      "thumb": "images/thumb/cmv188vw8fax4.webp",
+      "status": "visible",
+      "createdAt": "2026-10-09T17:22:25.459Z",
+      "updatedAt": "2026-10-09T17:22:25.459Z",
+      "w": 2048,
+      "h": 2048,
+      "sourceName": "sun-kissed.png"
+    },
+    {
+      "id": "cmv188vxpouv2",
+      "name": "LomoChrome Classicolor 200",
+      "attrs": {
+        "manufacturer": "Lomography",
+        "filmType": "彩色负片",
+        "iso": 200
+      },
+      "tags": [
+        "在产",
+        "135"
+      ],
+      "notes": "",
+      "original": "images/original/cmv188vxpouv2.png",
+      "thumb": "images/thumb/cmv188vxpouv2.webp",
+      "status": "visible",
+      "createdAt": "2026-10-09T17:22:25.473Z",
+      "updatedAt": "2026-10-09T17:22:25.473Z",
+      "w": 2048,
+      "h": 2048,
+      "sourceName": "nerv-image-2-0001 (2).png"
+    },
+    {
       "id": "cmuydsz05u11q",
       "name": "FUJICOLOR 100",
       "attrs": {
