@@ -66,14 +66,15 @@
         "iso": 100
       },
       "tags": [
-        "停产"
+        "停产",
+        "135"
       ],
-      "notes": "",
+      "notes": "日版富士C100",
       "original": "images/original/cmuydsz05u11q.png",
       "thumb": "images/thumb/cmuydsz05u11q.webp",
       "status": "visible",
       "createdAt": "2026-10-07T17:37:07.545Z",
-      "updatedAt": "2026-10-07T17:37:07.545Z",
+      "updatedAt": "2026-10-09T16:53:05.664Z",
       "w": 2048,
       "h": 2048,
       "sourceName": "nerv-image-7-0001 (1).png"
@@ -87,14 +88,15 @@
         "iso": 200
       },
       "tags": [
-        "在产"
+        "在产",
+        "135"
       ],
       "notes": "柯达CP200",
       "original": "images/original/cmuydsz1hgk2u.png",
       "thumb": "images/thumb/cmuydsz1hgk2u.webp",
       "status": "visible",
       "createdAt": "2026-10-07T17:37:07.566Z",
-      "updatedAt": "2026-10-07T17:37:07.566Z",
+      "updatedAt": "2026-10-09T16:52:36.730Z",
       "w": 2048,
       "h": 2048,
       "sourceName": "nerv-image-4-0001.png"
@@ -108,14 +110,15 @@
         "iso": 200
       },
       "tags": [
-        "停产"
+        "停产",
+        "135"
       ],
       "notes": "日版富士C200",
       "original": "images/original/cmuydsz34c90a.png",
       "thumb": "images/thumb/cmuydsz34c90a.webp",
       "status": "visible",
       "createdAt": "2026-10-07T17:37:07.580Z",
-      "updatedAt": "2026-10-07T17:37:07.580Z",
+      "updatedAt": "2026-10-09T16:52:58.719Z",
       "w": 2048,
       "h": 2048,
       "sourceName": "nerv-image-1-0001.png"
@@ -130,14 +133,15 @@
       },
       "tags": [
         "一次性相机",
-        "在产"
+        "在产",
+        "135"
       ],
       "notes": "",
       "original": "images/original/cmuydsz4fqfm6.png",
       "thumb": "images/thumb/cmuydsz4fqfm6.webp",
       "status": "visible",
       "createdAt": "2026-10-07T17:37:07.593Z",
-      "updatedAt": "2026-10-07T17:37:07.593Z",
+      "updatedAt": "2026-10-09T16:52:20.991Z",
       "w": 1774,
       "h": 887,
       "sourceName": "彩色柯达一次性相机正面特写.png"
@@ -151,14 +155,16 @@
         "iso": 400
       },
       "tags": [
-        "在产"
+        "在产",
+        "135",
+        "一次性相机"
       ],
       "notes": "",
       "original": "images/original/cmuydsz52bmy8.png",
       "thumb": "images/thumb/cmuydsz52bmy8.webp",
       "status": "visible",
       "createdAt": "2026-10-07T17:37:07.604Z",
-      "updatedAt": "2026-10-07T17:37:07.604Z",
+      "updatedAt": "2026-10-09T16:52:29.182Z",
       "w": 1774,
       "h": 887,
       "sourceName": "ChatGPT Image 2026年10月8日 00_51_33.png"
@@ -172,14 +178,15 @@
         "iso": 100
       },
       "tags": [
-        "在产"
+        "在产",
+        "135"
       ],
       "notes": "",
       "original": "images/original/cmuye09alewsi.png",
       "thumb": "images/thumb/cmuye09alewsi.webp",
       "status": "visible",
       "createdAt": "2026-10-07T17:37:07.614Z",
-      "updatedAt": "2026-10-07T17:37:07.614Z",
+      "updatedAt": "2026-10-09T16:52:15.172Z",
       "w": 1024,
       "h": 1024,
       "sourceName": "nerv-image-6-0001.png"
@@ -189,18 +196,20 @@
       "name": "HARMAN PHOENIX II",
       "attrs": {
         "manufacturer": "Ilford",
+        "filmType": "彩色负片",
         "iso": 200
       },
       "tags": [
         "在产",
-        "风格卷"
+        "风格卷",
+        "135"
       ],
       "notes": "哈曼蓝凤凰二代（建议过曝一档）",
       "original": "images/original/cmuraje5vhpa2.png",
       "thumb": "images/thumb/cmuraje5vhpa2.webp",
       "status": "visible",
       "createdAt": "2026-10-02T18:31:12.074Z",
-      "updatedAt": "2026-10-02T18:31:12.075Z",
+      "updatedAt": "2026-10-09T16:52:12.426Z",
       "w": 2048,
       "h": 2048,
       "sourceName": "nerv-image-5-0001.png"
@@ -215,14 +224,15 @@
       },
       "tags": [
         "在产",
-        "风格卷"
+        "风格卷",
+        "135"
       ],
       "notes": "哈曼新版红凤凰",
       "original": "images/original/cmurajgk8w3i0.png",
       "thumb": "images/thumb/cmurajgk8w3i0.webp",
       "status": "visible",
       "createdAt": "2026-10-02T18:31:12.093Z",
-      "updatedAt": "2026-10-02T18:31:12.093Z",
+      "updatedAt": "2026-10-09T16:52:09.596Z",
       "w": 2048,
       "h": 2048,
       "sourceName": "nerv-image-6-0001.png"
@@ -236,14 +246,15 @@
         "iso": 100
       },
       "tags": [
-        "在产"
+        "在产",
+        "135"
       ],
       "notes": "人像100",
       "original": "images/original/cmuraji6nnmay.png",
       "thumb": "images/thumb/cmuraji6nnmay.webp",
       "status": "visible",
       "createdAt": "2026-10-02T18:31:12.108Z",
-      "updatedAt": "2026-10-02T18:31:12.108Z",
+      "updatedAt": "2026-10-09T16:52:06.684Z",
       "w": 2048,
       "h": 2048,
       "sourceName": "imgak_removebg_00505_1790933703550.png"
@@ -257,38 +268,18 @@
         "iso": 400
       },
       "tags": [
-        "在产"
+        "在产",
+        "135"
       ],
       "notes": "",
       "original": "images/original/cmurajkrsk23w.png",
       "thumb": "images/thumb/cmurajkrsk23w.webp",
       "status": "visible",
       "createdAt": "2026-10-02T18:31:12.116Z",
-      "updatedAt": "2026-10-02T18:31:12.116Z",
+      "updatedAt": "2026-10-09T16:52:04.068Z",
       "w": 2048,
       "h": 2048,
       "sourceName": "imgak_removebg_00506_1790933703874.png"
-    },
-    {
-      "id": "cmuraofhwtsz5",
-      "name": "PAN 100",
-      "attrs": {
-        "manufacturer": "Foma",
-        "filmType": "黑白负片",
-        "iso": 100
-      },
-      "tags": [
-        "在产"
-      ],
-      "notes": "",
-      "original": "images/original/cmuraofhwtsz5.png",
-      "thumb": "images/thumb/cmuraofhwtsz5.webp",
-      "status": "visible",
-      "createdAt": "2026-10-02T18:31:12.127Z",
-      "updatedAt": "2026-10-02T18:31:12.127Z",
-      "w": 2048,
-      "h": 2048,
-      "sourceName": "福马pan100 135暗盒.png"
     },
     {
       "id": "cmurap20nnmu7",
@@ -300,14 +291,15 @@
       },
       "tags": [
         "在产",
-        "120"
+        "120",
+        "包装"
       ],
       "notes": "RVP 50 包装",
       "original": "images/original/cmurap20nnmu7.png",
       "thumb": "images/thumb/cmurap20nnmu7.webp",
       "status": "visible",
       "createdAt": "2026-10-02T18:31:12.139Z",
-      "updatedAt": "2026-10-02T18:31:12.139Z",
+      "updatedAt": "2026-10-09T16:51:52.688Z",
       "w": 1536,
       "h": 1024,
       "sourceName": "ChatGPT Image 2026年9月23日 02_05_02.png"
@@ -321,14 +313,15 @@
         "iso": 200
       },
       "tags": [
-        "在产"
+        "在产",
+        "135"
       ],
       "notes": "",
       "original": "images/original/cmurap9mq3joc.png",
       "thumb": "images/thumb/cmurap9mq3joc.webp",
       "status": "visible",
       "createdAt": "2026-10-02T18:31:12.144Z",
-      "updatedAt": "2026-10-02T18:31:12.144Z",
+      "updatedAt": "2026-10-09T16:51:35.183Z",
       "w": 1024,
       "h": 1536,
       "sourceName": "乐凯C200 135暗盒.png"
@@ -342,14 +335,15 @@
         "iso": 400
       },
       "tags": [
-        "在产"
+        "在产",
+        "135"
       ],
       "notes": "",
       "original": "images/original/cmurap9nhlavw.png",
       "thumb": "images/thumb/cmurap9nhlavw.webp",
       "status": "visible",
       "createdAt": "2026-10-02T18:31:12.153Z",
-      "updatedAt": "2026-10-02T18:31:12.153Z",
+      "updatedAt": "2026-10-09T16:51:32.710Z",
       "w": 1760,
       "h": 2368,
       "sourceName": "乐凯SHD400 135暗盒.png"
@@ -364,14 +358,15 @@
       },
       "tags": [
         "在产",
-        "风格卷"
+        "风格卷",
+        "135"
       ],
       "notes": "",
       "original": "images/original/cmuqq91jnn7pi.png",
       "thumb": "images/thumb/cmuqq91jnn7pi.webp",
       "status": "visible",
       "createdAt": "2026-10-02T09:12:10.184Z",
-      "updatedAt": "2026-10-02T09:12:10.184Z",
+      "updatedAt": "2026-10-09T16:51:30.158Z",
       "w": 1024,
       "h": 1024,
       "sourceName": "nerv-image-32-0002.png"
@@ -386,14 +381,15 @@
       },
       "tags": [
         "在产",
-        "风格卷"
+        "风格卷",
+        "135"
       ],
       "notes": "",
       "original": "images/original/cmuqq91k8ihtd.png",
       "thumb": "images/thumb/cmuqq91k8ihtd.webp",
       "status": "visible",
       "createdAt": "2026-10-02T09:12:10.188Z",
-      "updatedAt": "2026-10-02T09:12:10.188Z",
+      "updatedAt": "2026-10-09T16:51:26.496Z",
       "w": 1024,
       "h": 1024,
       "sourceName": "nerv-image-33-0002.png"
@@ -407,14 +403,15 @@
         "iso": 400
       },
       "tags": [
-        "在产"
+        "在产",
+        "135"
       ],
       "notes": "炮塔400",
       "original": "images/original/cmuqq91kpoddb.png",
       "thumb": "images/thumb/cmuqq91kpoddb.webp",
       "status": "visible",
       "createdAt": "2026-10-02T09:12:10.191Z",
-      "updatedAt": "2026-10-02T09:12:10.191Z",
+      "updatedAt": "2026-10-09T16:51:22.485Z",
       "w": 2048,
       "h": 2048,
       "sourceName": "nerv-image-34-0001.png"
@@ -428,14 +425,15 @@
         "iso": 200
       },
       "tags": [
-        "在产"
+        "在产",
+        "135"
       ],
       "notes": "美版富士C200(柯达代工，金200换皮)",
       "original": "images/original/cmuqq91lgvjnp.png",
       "thumb": "images/thumb/cmuqq91lgvjnp.webp",
       "status": "visible",
       "createdAt": "2026-10-02T09:12:10.198Z",
-      "updatedAt": "2026-10-02T09:12:10.198Z",
+      "updatedAt": "2026-10-09T16:51:20.061Z",
       "w": 2048,
       "h": 2048,
       "sourceName": "nerv-image-21-0001.png"
@@ -449,14 +447,15 @@
         "iso": 800
       },
       "tags": [
-        "在产"
+        "在产",
+        "135"
       ],
       "notes": "炮塔800",
       "original": "images/original/cmuqq91mwegsq.png",
       "thumb": "images/thumb/cmuqq91mwegsq.webp",
       "status": "visible",
       "createdAt": "2026-10-02T09:12:10.214Z",
-      "updatedAt": "2026-10-02T09:12:10.214Z",
+      "updatedAt": "2026-10-09T16:51:17.235Z",
       "w": 2048,
       "h": 2048,
       "sourceName": "nerv-image-14-0001 (1).png"
@@ -470,14 +469,15 @@
         "iso": 160
       },
       "tags": [
-        "在产"
+        "在产",
+        "135"
       ],
       "notes": "炮塔160",
       "original": "images/original/cmuqq91oceerc.png",
       "thumb": "images/thumb/cmuqq91oceerc.webp",
       "status": "visible",
       "createdAt": "2026-10-02T09:12:10.230Z",
-      "updatedAt": "2026-10-02T09:12:10.230Z",
+      "updatedAt": "2026-10-09T16:51:14.978Z",
       "w": 2048,
       "h": 2048,
       "sourceName": "nerv-image-2-0001.png"
@@ -491,14 +491,15 @@
         "iso": 400
       },
       "tags": [
-        "在产"
+        "在产",
+        "135"
       ],
       "notes": "美版富士C400(柯达代工，全能400换皮)",
       "original": "images/original/cmuqqdb4fga5g.png",
       "thumb": "images/thumb/cmuqqdb4fga5g.webp",
       "status": "visible",
       "createdAt": "2026-10-02T09:12:10.242Z",
-      "updatedAt": "2026-10-02T09:12:10.242Z",
+      "updatedAt": "2026-10-09T16:51:11.988Z",
       "w": 1024,
       "h": 1024,
       "sourceName": "nerv-image-25-0001.png"
@@ -512,14 +513,15 @@
         "iso": 200
       },
       "tags": [
-        "在产"
+        "在产",
+        "135"
       ],
       "notes": "",
       "original": "images/original/cmuqqoajsique.png",
       "thumb": "images/thumb/cmuqqoajsique.webp",
       "status": "visible",
       "createdAt": "2026-10-02T09:12:10.244Z",
-      "updatedAt": "2026-10-02T09:12:10.244Z",
+      "updatedAt": "2026-10-09T16:51:06.960Z",
       "w": 1024,
       "h": 1024,
       "sourceName": "nerv-image-31-0002.png"
@@ -533,14 +535,15 @@
         "iso": 100
       },
       "tags": [
-        "在产"
+        "在产",
+        "135"
       ],
       "notes": "疑似乐凯1023飞机卷分装",
       "original": "images/original/cmuqqptf06hj8.png",
       "thumb": "images/thumb/cmuqqptf06hj8.webp",
       "status": "visible",
       "createdAt": "2026-10-02T09:12:10.246Z",
-      "updatedAt": "2026-10-02T09:12:10.246Z",
+      "updatedAt": "2026-10-09T16:51:03.744Z",
       "w": 2048,
       "h": 2048,
       "sourceName": "nerv-image-12-0002.png"
@@ -550,19 +553,21 @@
       "name": "AHU5207",
       "attrs": {
         "manufacturer": "喏斯ROSFILM",
-        "filmType": "电影卷",
+        "filmType": "彩色负片",
         "iso": 250
       },
       "tags": [
         "在产",
-        "国内分装"
+        "国内分装",
+        "电影卷",
+        "135"
       ],
-      "notes": "",
+      "notes": "C-41冲洗通用可按320度拍，光线不足时200度",
       "original": "images/original/cmuqjd11gm9jl.png",
       "thumb": "images/thumb/cmuqjd11gm9jl.webp",
       "status": "visible",
       "createdAt": "2026-10-02T05:46:33.082Z",
-      "updatedAt": "2026-10-02T05:46:33.082Z",
+      "updatedAt": "2026-10-09T16:51:00.018Z",
       "w": 1254,
       "h": 1254,
       "sourceName": "喏斯​无碳5207 135暗盒.png"
@@ -572,19 +577,21 @@
       "name": "AHU5213",
       "attrs": {
         "manufacturer": "喏斯ROSFILM",
-        "filmType": "电影卷",
+        "filmType": "彩色负片",
         "iso": 200
       },
       "tags": [
         "在产",
-        "国内分装"
+        "国内分装",
+        "电影卷",
+        "135"
       ],
-      "notes": "",
+      "notes": "C-41冲洗通用可按100度拍，光线不足时100度",
       "original": "images/original/cmuqjd12638js.png",
       "thumb": "images/thumb/cmuqjd12638js.webp",
       "status": "visible",
       "createdAt": "2026-10-02T05:46:33.094Z",
-      "updatedAt": "2026-10-02T05:46:33.094Z",
+      "updatedAt": "2026-10-09T16:50:51.242Z",
       "w": 2048,
       "h": 2048,
       "sourceName": "喏斯​无碳AHU5213 135暗盒.png"
@@ -594,19 +601,21 @@
       "name": "过期Vision2 5205",
       "attrs": {
         "manufacturer": "菲林啃噬者",
-        "filmType": "电影卷",
+        "filmType": "彩色负片",
         "iso": 100
       },
       "tags": [
         "停产",
-        "国内分装"
+        "国内分装",
+        "电影卷",
+        "135"
       ],
       "notes": "",
       "original": "images/original/cmuqjd7006233.png",
       "thumb": "images/thumb/cmuqjd7006233.webp",
       "status": "visible",
       "createdAt": "2026-10-02T05:46:33.111Z",
-      "updatedAt": "2026-10-02T05:46:33.111Z",
+      "updatedAt": "2026-10-09T16:50:48.863Z",
       "w": 1024,
       "h": 1536,
       "sourceName": "过期Vision2 5205 iso100 135暗盒.png"
@@ -616,19 +625,21 @@
       "name": "过期Vision2 5218",
       "attrs": {
         "manufacturer": "菲林啃噬者",
-        "filmType": "电影卷",
+        "filmType": "彩色负片",
         "iso": 100
       },
       "tags": [
         "停产",
-        "国内分装"
+        "国内分装",
+        "电影卷",
+        "135"
       ],
       "notes": "",
       "original": "images/original/cmuqjd70xvf26.png",
       "thumb": "images/thumb/cmuqjd70xvf26.webp",
       "status": "visible",
       "createdAt": "2026-10-02T05:46:33.125Z",
-      "updatedAt": "2026-10-02T05:46:33.125Z",
+      "updatedAt": "2026-10-09T16:50:46.479Z",
       "w": 1728,
       "h": 2320,
       "sourceName": "过期Vision2 5218 iso100“允许外带” 135暗盒.png"
@@ -638,19 +649,21 @@
       "name": "5294",
       "attrs": {
         "manufacturer": "岳CrystalFilm",
-        "filmType": "电影卷",
+        "filmType": "彩色反转片",
         "iso": 100
       },
       "tags": [
         "在产",
-        "国内分装"
+        "国内分装",
+        "电影卷",
+        "135"
       ],
       "notes": "电影反转片",
       "original": "images/original/cmuqjdbu8ibrp.png",
       "thumb": "images/thumb/cmuqjdbu8ibrp.webp",
       "status": "visible",
       "createdAt": "2026-10-02T05:46:33.144Z",
-      "updatedAt": "2026-10-02T05:46:33.144Z",
+      "updatedAt": "2026-10-09T16:50:43.883Z",
       "w": 1728,
       "h": 2320,
       "sourceName": "岳老板5294 135暗盒.png"
@@ -660,19 +673,21 @@
       "name": "AHU5203",
       "attrs": {
         "manufacturer": "岳CrystalFilm",
-        "filmType": "电影卷",
+        "filmType": "彩色负片",
         "iso": 50
       },
       "tags": [
         "在产",
-        "国内分装"
+        "国内分装",
+        "电影卷",
+        "135"
       ],
-      "notes": "",
+      "notes": "C-41冲洗通用可按100度拍，光线不足时100度",
       "original": "images/original/cmuqjdbvf677q.png",
       "thumb": "images/thumb/cmuqjdbvf677q.webp",
       "status": "visible",
       "createdAt": "2026-10-02T05:46:33.158Z",
-      "updatedAt": "2026-10-02T05:46:33.158Z",
+      "updatedAt": "2026-10-09T16:50:41.116Z",
       "w": 1728,
       "h": 2320,
       "sourceName": "岳老板无碳AHU5203 135暗盒.png"
@@ -682,19 +697,21 @@
       "name": "AHU5207",
       "attrs": {
         "manufacturer": "岳CrystalFilm",
-        "filmType": "电影卷",
+        "filmType": "彩色负片",
         "iso": 250
       },
       "tags": [
         "在产",
-        "国内分装"
+        "国内分装",
+        "电影卷",
+        "135"
       ],
-      "notes": "",
+      "notes": "C-41冲洗通用可按320度拍，光线不足时200度",
       "original": "images/original/cmuqjdbwqqkd7.png",
       "thumb": "images/thumb/cmuqjdbwqqkd7.webp",
       "status": "visible",
       "createdAt": "2026-10-02T05:46:33.170Z",
-      "updatedAt": "2026-10-02T05:46:33.170Z",
+      "updatedAt": "2026-10-09T16:50:38.372Z",
       "w": 1728,
       "h": 2320,
       "sourceName": "岳老板无碳AHU5207 135暗盒.png"
@@ -704,19 +721,21 @@
       "name": "AHU5213",
       "attrs": {
         "manufacturer": "岳CrystalFilm",
-        "filmType": "电影卷",
+        "filmType": "彩色负片",
         "iso": 200
       },
       "tags": [
         "在产",
-        "国内分装"
+        "国内分装",
+        "电影卷",
+        "135"
       ],
-      "notes": "",
+      "notes": "C-41冲洗通用可按100度拍，光线不足时100度",
       "original": "images/original/cmuqjdbxuyby0.png",
       "thumb": "images/thumb/cmuqjdbxuyby0.webp",
       "status": "visible",
       "createdAt": "2026-10-02T05:46:33.179Z",
-      "updatedAt": "2026-10-02T05:46:33.179Z",
+      "updatedAt": "2026-10-09T16:50:35.414Z",
       "w": 1728,
       "h": 2320,
       "sourceName": "岳老板无碳AHU5213 135暗盒.png"
@@ -730,14 +749,15 @@
         "iso": 400
       },
       "tags": [
-        "在产"
+        "在产",
+        "135"
       ],
       "notes": "",
       "original": "images/original/cmuqixl4gtzko.png",
       "thumb": "images/thumb/cmuqixl4gtzko.webp",
       "status": "visible",
       "createdAt": "2026-10-02T05:36:08.651Z",
-      "updatedAt": "2026-10-02T05:53:48.770Z",
+      "updatedAt": "2026-10-09T16:50:30.078Z",
       "w": 2048,
       "h": 2048,
       "sourceName": "柯达UltraMax400 135暗盒.png"
@@ -759,7 +779,7 @@
       "thumb": "images/thumb/cmuqixl5uwa84.webp",
       "status": "visible",
       "createdAt": "2026-10-02T05:36:08.666Z",
-      "updatedAt": "2026-10-02T05:36:08.666Z",
+      "updatedAt": "2026-10-09T16:50:17.066Z",
       "w": 1024,
       "h": 1536,
       "sourceName": "柯达金200 120裸卷背纸.png"
@@ -773,14 +793,15 @@
         "iso": 200
       },
       "tags": [
-        "在产"
+        "在产",
+        "135"
       ],
       "notes": "",
       "original": "images/original/cmuqiswtcp9e4.png",
       "thumb": "images/thumb/cmuqiswtcp9e4.webp",
       "status": "visible",
       "createdAt": "2026-10-02T05:27:01.182Z",
-      "updatedAt": "2026-10-02T05:31:13.864Z",
+      "updatedAt": "2026-10-09T16:50:14.026Z",
       "w": 1024,
       "h": 1536,
       "sourceName": "柯达金200 135暗盒.png"
