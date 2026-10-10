@@ -58,6 +58,94 @@
   },
   "items": [
     {
+      "id": "cmv2n03ty60go",
+      "name": "Velvia 100",
+      "attrs": {
+        "manufacturer": "Fujifilm",
+        "filmType": "彩色反转片",
+        "iso": 100
+      },
+      "tags": [
+        "停产",
+        "135"
+      ],
+      "notes": "RVP 100",
+      "original": "images/original/cmv2n03ty60go.png",
+      "thumb": "images/thumb/cmv2n03ty60go.webp",
+      "status": "visible",
+      "createdAt": "2026-10-10T17:03:25.524Z",
+      "updatedAt": "2026-10-10T17:03:25.524Z",
+      "w": 2048,
+      "h": 2048,
+      "sourceName": "nerv-image-4-0001 (3).png"
+    },
+    {
+      "id": "cmv2n03v822q8",
+      "name": "Velvia 50",
+      "attrs": {
+        "manufacturer": "Fujifilm",
+        "filmType": "彩色反转片",
+        "iso": 50
+      },
+      "tags": [
+        "停产",
+        "135"
+      ],
+      "notes": "RVP 50",
+      "original": "images/original/cmv2n03v822q8.png",
+      "thumb": "images/thumb/cmv2n03v822q8.webp",
+      "status": "visible",
+      "createdAt": "2026-10-10T17:03:25.543Z",
+      "updatedAt": "2026-10-10T17:03:25.543Z",
+      "w": 2048,
+      "h": 2048,
+      "sourceName": "nerv-image-3-0001 (2).png"
+    },
+    {
+      "id": "cmv2n03wichoh",
+      "name": "PROVIA 100F",
+      "attrs": {
+        "manufacturer": "Fujifilm",
+        "filmType": "彩色反转片",
+        "iso": 100
+      },
+      "tags": [
+        "在产",
+        "135"
+      ],
+      "notes": "RDP III",
+      "original": "images/original/cmv2n03wichoh.png",
+      "thumb": "images/thumb/cmv2n03wichoh.webp",
+      "status": "visible",
+      "createdAt": "2026-10-10T17:03:25.555Z",
+      "updatedAt": "2026-10-10T17:03:25.555Z",
+      "w": 2048,
+      "h": 2048,
+      "sourceName": "nerv-image-2-0001 (3).png"
+    },
+    {
+      "id": "cmv2n03xpfy9g",
+      "name": "PREMIUM 400",
+      "attrs": {
+        "manufacturer": "Fujifilm",
+        "filmType": "彩色负片",
+        "iso": 400
+      },
+      "tags": [
+        "在产",
+        "135"
+      ],
+      "notes": "花王，花卉400",
+      "original": "images/original/cmv2n03xpfy9g.png",
+      "thumb": "images/thumb/cmv2n03xpfy9g.webp",
+      "status": "visible",
+      "createdAt": "2026-10-10T17:03:25.567Z",
+      "updatedAt": "2026-10-10T17:03:25.567Z",
+      "w": 2048,
+      "h": 2048,
+      "sourceName": "nerv-image-1-0001 (3).png"
+    },
+    {
       "id": "cmv17jkd2qab9",
       "name": "PAN 100",
       "attrs": {
