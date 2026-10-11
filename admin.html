@@ -7,16 +7,64 @@
   <title>暗盒图片库 · 管理端</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23171310'/%3E%3Crect x='6' y='6' width='20' height='20' rx='2' fill='%23100d0a'/%3E%3Ccircle cx='16' cy='14' r='5' fill='%23e0a458'/%3E%3Crect x='8' y='22' width='16' height='1.6' fill='%23e0a458' opacity='.55'/%3E%3C/svg%3E" />
   <link rel="stylesheet" href="styles.css" />
+  <script>
+    (function () {
+      try {
+        var m = localStorage.getItem("canister-theme");
+        if (m === "light" || m === "dark") document.documentElement.dataset.theme = m;
+      } catch (e) {}
+    })();
+  </script>
 </head>
 <body>
 
 <header class="lib-header">
   <div class="lib-header-inner">
-    <a class="lib-back" href="index.html">← 返回公开图片库</a>
-    <h1>暗盒图片库 · 管理端</h1>
-    <p class="lib-sub">Canister library admin</p>
+    <div class="lib-header-top">
+      <div>
+        <a class="lib-back" href="index.html">← 返回公开图片库</a>
+        <h1>暗盒图片库 · 管理端</h1>
+        <p class="lib-sub">Canister library admin</p>
+      </div>
+      <div class="lib-header-actions">
+        <button id="themeBtn" class="lib-icon-btn ghost" type="button" aria-label="主题模式">
+          <svg class="ti-auto show" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor" stroke="none"/></svg>
+          <svg class="ti-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          <svg class="ti-dark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        </button>
+      </div>
+    </div>
   </div>
 </header>
+
+<script>
+  // 主题三态（跟随系统 / 浅色 / 暗色），与访客页共用同一 localStorage 键
+  (function () {
+    var KEY = "canister-theme";
+    var mode = "auto";
+    try { mode = localStorage.getItem(KEY) || "auto"; } catch (e) {}
+    if (mode !== "light" && mode !== "dark") mode = "auto";
+    var btn = document.getElementById("themeBtn");
+    function apply(m) {
+      mode = m;
+      if (m === "auto") delete document.documentElement.dataset.theme;
+      else document.documentElement.dataset.theme = m;
+      ["auto", "light", "dark"].forEach(function (k) {
+        var svg = btn.querySelector(".ti-" + k);
+        if (svg) svg.classList.toggle("show", k === m);
+      });
+      var label = m === "auto" ? "主题：跟随系统" : (m === "light" ? "主题：浅色" : "主题：暗色");
+      btn.setAttribute("aria-label", label);
+      btn.title = label;
+    }
+    btn.addEventListener("click", function () {
+      var next = mode === "auto" ? "light" : (mode === "light" ? "dark" : "auto");
+      try { localStorage.setItem(KEY, next); } catch (e) {}
+      apply(next);
+    });
+    apply(mode);
+  })();
+</script>
 
 <main>
 
@@ -667,12 +715,16 @@
       });
       var iw = img.naturalWidth || 300;
       var ih = img.naturalHeight || 300;
-      var MAX = 320;
-      var scale = Math.min(1, MAX / Math.max(iw, ih));
+      // 统一缩略图规格：固定 300×420 画布内等比 contain 居中（透明底保留），
+      // 物理尺寸一致 → 访客页网格零回流、字节体积可预期
+      var TW = 300, TH = 420;
+      var scale = Math.min(TW / iw, TH / ih);
+      var dw = Math.max(1, Math.round(iw * scale));
+      var dh = Math.max(1, Math.round(ih * scale));
       var canvas = document.createElement("canvas");
-      canvas.width = Math.max(1, Math.round(iw * scale));
-      canvas.height = Math.max(1, Math.round(ih * scale));
-      canvas.getContext("2d").drawImage(img, 0, 0, canvas.width, canvas.height);
+      canvas.width = TW;
+      canvas.height = TH;
+      canvas.getContext("2d").drawImage(img, Math.round((TW - dw) / 2), Math.round((TH - dh) / 2), dw, dh);
       var blob = await new Promise(function (resolve) { canvas.toBlob(resolve, "image/webp", 0.82); });
       var ext = "webp";
       if (!blob) {
